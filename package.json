@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "prisma": "npx prisma migrate dev --name init"
   },
   "repository": {
     "type": "git",
@@ -16,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/computacionet26/armado-reparacion/issues"
   },
-  "homepage": "https://github.com/computacionet26/armado-reparacion#readme"
+  "homepage": "https://github.com/computacionet26/armado-reparacion#readme",
+  "devDependencies": {
+    "prisma": "^4.3.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.2"
+  }
 }
