@@ -1,0 +1,10 @@
+const User = require('../models/user.model')
+
+module.exports = async (req = request, res = response, next) => {
+    const {username} = req.params
+
+    const userByUsername = await User.getByUsername(username)
+    if(!userByUsername) return res.status(400).json({error: 'Incorrect username'})
+
+    next()
+}
