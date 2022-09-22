@@ -7,11 +7,9 @@ const register = async (req = request, res = response) => {
 
         const user = await User.register({username, email, password})
 
-        res.statusCode = 200
-        res.json(user)
+        res.status(200).json(user)
     } catch (error) {
-        res.statusCode = 500
-        res.json({error})
+        res.status(500).json({error})
     }
 }
 
@@ -21,11 +19,9 @@ const login = async (req = request, res = response) => {
 
         const token = await genToken({id: user.id, name: user.username}, '360d')
        
-        res.statusCode = 200
-        res.json({token})
+        res.status(200).json({token})
     } catch (error) {
-        res.statusCode = 500
-        res.json({error})
+        res.status(500).json({error})
     }
 }
 
@@ -35,15 +31,13 @@ const getById = async (req = request, res = response) => {
 
         const user = await User.getById(id)
 
-        res.statusCode = 200
-        res.json({
+        res.status(200).json({
             username: user.username,
             createdAt: user.createdAt,
             email: user.email
         })
     } catch (error) {
-        res.statusCode = 500
-        res.json({error})
+        res.status(500).json({error})
     }
 }
 
@@ -53,15 +47,14 @@ const get = async (req = request, res = response) => {
 
         const user = await User.getByUsername(username)
 
-        res.statusCode = 200
-        res.json({
+        res.status(200).json({
             id: user.id,
+            username: user.username,
             createdAt: user.createdAt,
             email: user.email
         })
     } catch (error) {
-        res.statusCode = 500
-        res.json({error})
+        res.status(500).json({error})
     }
 }
 
@@ -69,11 +62,9 @@ const getAll = async (req = request, res = response) => {
     try {
         const users = await User.getAll()
 
-        res.statusCode = 200
-        res.json(users)
+        res.status(200).json(users)
     } catch (error) {
-        res.statusCode = 500
-        res.json({error})
+        res.status(500).json({error})
     }
 }
 
@@ -83,15 +74,14 @@ const delet = async (req = request, res = response) => {
 
         const user = await User.deletByUsername(username)
 
-        res.statusCode = 200
-        res.json({
+        res.status(200).json({
             id: user.id,
+            username: user.username,
             createdAt: user.createdAt,
             email: user.email
         })
     } catch (error) {
-        res.statusCode = 500
-        res.json({error})
+        res.status(500).json({error})
     }
 }
 
@@ -100,15 +90,14 @@ const put = async (req = request, res = response) => {
         const {username} = req.params
         const user = await User.updateByUsername(username, req.body)
 
-        res.statusCode = 200
-        res.json({
+        res.status(200).json({
             id: user.id,
+            username: user.username,
             createdAt: user.createdAt,
             email: user.email
         })
     } catch (error) {
-        res.statusCode = 500
-        res.json({error})
+        res.status(500).json({error})
     }
 }
 

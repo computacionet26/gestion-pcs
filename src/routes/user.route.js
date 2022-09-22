@@ -1,3 +1,5 @@
+const router = require('express').Router()
+
 const User = new require('../models/user.model')
 const controller = require('../controllers/user.controller')
 
@@ -8,41 +10,12 @@ const login = require('../middlewares/login')
 const checkAdmin = require('../middlewares/checkAdmin')
 const usernameExist = require('../middlewares/usernameExist')
 
-module.exports = [
-    {
-        url: "/user/register",
-        method: "POST",
-        middleware: [parseSchema(User.RegisterSchema), encryptPassword, register],
-        controller: controller.register
-    },
-    {
-        url: "/user/login",
-        method: "POST",
-        middleware: [parseSchema(User.LoginSchema), login],
-        controller: controller.login
-    },
-    {
-        url: "/user",
-        method: "GET",
-        middleware: [checkAdmin],
-        controller: controller.getAll
-    },
-    {
-        url: "/user/:name",
-        method: "GET",
-        middleware: [usernameExist],
-        controller: controller.get
-    },
-    {
-        url: "/user/:name",
-        method: "PUT",
-        middleware: [parseSchema(User.UpdateShema), usernameExist, checkAdmin],
-        controller: controller.put
-    },
-    {
-        url: "/user/:name",
-        method: "DELETE",
-        middleware: [usernameExist, checkAdmin],
-        controller: controller.delete
-    },
-]
+router.post('/register', [checkAdmin, parseSchema(User.RegisterSchema), encryptPassword, register], controller.register)
+router.post('/login', [parseSchema(User.LoginSchema), login], controller.login)
+
+router.get('/', [checkAdmin], controller.getAll)
+router.get('/:username', [usernameExist], controller.get)
+router.delete('/:username', [checkAdmin, usernameExist], controller.delet)
+router.put('/:username', [checkAdmin, usernameExist, parseSchema(User.UpdateSchema), encryptPassword], controller.put)
+
+module.exports = router

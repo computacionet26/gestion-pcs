@@ -6,13 +6,12 @@ const get = async (req = request, res = response) => {
 
         const role = await Role.getByName(name)
 
-        res.statusCode = 200
-        res.json({
-            id: role.id
+        res.status(200).json({
+            id: role.id,
+            name: role.name
         })
     } catch (error) {
-        res.statusCode = 500
-        res.json({error})
+        res.status(500).json({error})
     }
 }
 
@@ -20,11 +19,9 @@ const getAll = async (req = request, res = response) => {
     try {
         const roles = await Role.getAll()
 
-        res.statusCode = 200
-        res.json(roles)
+        res.status(200).json(roles)
     } catch (error) {
-        res.statusCode = 500
-        res.json({error})
+        res.status(500).json({error})
     }
 }
 
@@ -32,11 +29,9 @@ const post = async (req = request, res = response) => {
     try {
         const role = await Role.upload(req.body)
         
-        res.statusCode = 200
-        res.json(role)
+        res.status(200).json(role)
     } catch (error) {
-        res.statusCode = 500
-        res.json({error})
+        res.status(500).json({error})
     }
 }
 
@@ -46,14 +41,13 @@ const delet = async (req = request, res = response) => {
 
         const role = await Role.deletByName(name)
 
-        res.statusCode = 200
-        res.json({
+        res.status(200).json({
             id: role.id,
+            name: role.name,
             createdAt: role.createdAt
         })
     } catch (error) {
-        res.statusCode = 500
-        res.json({error})
+        res.status(500).json({error})
     }
 }
 
@@ -63,14 +57,13 @@ const put = async (req = request, res = response) => {
 
         const role = await Role.updateByName(name, req.body)
 
-        res.statusCode = 200
-        res.json({
+        res.status(200).json({
             id: role.id,
+            name: role.name,
             createdAt: role.createdAt
         })
     } catch (error) {
-        res.statusCode = 500
-        res.json({error})
+        res.status(500).json({error})
     }
 }
 
