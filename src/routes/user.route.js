@@ -16,11 +16,6 @@ module.exports = [
         controller: controller.register
     },
     {
-        url: "/user/confirm/:token",
-        method: "GET",
-        controller: controller.confirm
-    },
-    {
         url: "/user/login",
         method: "POST",
         middleware: [parseSchema(User.LoginSchema), login],
@@ -41,7 +36,7 @@ module.exports = [
     {
         url: "/user/:name",
         method: "PUT",
-        middleware: [usernameExist, checkAdmin],
+        middleware: [parseSchema(User.UpdateShema), usernameExist, checkAdmin],
         controller: controller.put
     },
     {

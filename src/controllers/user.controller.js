@@ -1,49 +1,31 @@
 const User = new require('../models/user.model')
-const {expiredToken, genToken, getToken} = require('../helpers/jwt')
-const sendEmail = require('../helpers/sendEmail')
-const confirmAccountEmail = require('../helpers/confirmAccountEmail.html')
+const {expiredToken, genToken, getToken} = require('../utils/jwt')
 
 const register = async (req = request, res = response) => {
     try {
-        const {email} = req.body
+        const {username, email, password} = req.body
 
-        const token = await genToken(req.body, '3h')
+        const user = await User.register({username, email, password})
 
-        await sendEmail({
-            email,
-            service: 'gmail',
-            from: process.env.APP_NAME,
-            subject: `Confirm account - ${process.env.APP_NAME}`,
-            html: confirmAccountEmail(process.env.URL, token)
-        })
-
-        res.status(201).json({msg: 'Please confirm account in your email'})
+        res.statusCode = 200
+        res.json(user)
     } catch (error) {
-        res.status(500).json({error})
+        res.statusCode = 500
+        res.json({error})
     }
-}
-
-const confirm = async (req = request, res = response) => {
-    try {
-        const {token} = req.params
-        if(!await expiredToken(token)){
-            const {username, email, password} = await getToken(token)
-
-            if(email) await User.register({username, email, password})
-        }else{
-            console.log('Token expired');
-        }
-    } catch (error) {}
-    res.send("<script>window.close();</script>")
 }
 
 const login = async (req = request, res = response) => {
     try {
         const user = await User.login(req.body)
-        const token = await genToken({id: user.id, name: user.username, role: user.role}, '30d')
-        res.status(200).json({token})
+
+        const token = await genToken({id: user.id, name: user.username}, '360d')
+       
+        res.statusCode = 200
+        res.json({token})
     } catch (error) {
-        res.status(500).json({error})
+        res.statusCode = 500
+        res.json({error})
     }
 }
 
@@ -53,14 +35,15 @@ const getById = async (req = request, res = response) => {
 
         const user = await User.getById(id)
 
-        res.status(200).json({
+        res.statusCode = 200
+        res.json({
             username: user.username,
             createdAt: user.createdAt,
-            email: user.email,
-            role: user.role
+            email: user.email
         })
     } catch (error) {
-        res.status(500).json({error})
+        res.statusCode = 500
+        res.json({error})
     }
 }
 
@@ -70,14 +53,15 @@ const get = async (req = request, res = response) => {
 
         const user = await User.getByUsername(username)
 
-        res.status(200).json({
+        res.statusCode = 200
+        res.json({
             id: user.id,
             createdAt: user.createdAt,
-            email: user.email,
-            role: user.role
+            email: user.email
         })
     } catch (error) {
-        res.status(500).json({error})
+        res.statusCode = 500
+        res.json({error})
     }
 }
 
@@ -85,9 +69,11 @@ const getAll = async (req = request, res = response) => {
     try {
         const users = await User.getAll()
 
-        res.status(200).json(users)
+        res.statusCode = 200
+        res.json(users)
     } catch (error) {
-        res.status(500).json({error})
+        res.statusCode = 500
+        res.json({error})
     }
 }
 
@@ -97,14 +83,15 @@ const delet = async (req = request, res = response) => {
 
         const user = await User.deletByUsername(username)
 
-        res.status(200).json({
+        res.statusCode = 200
+        res.json({
             id: user.id,
             createdAt: user.createdAt,
-            email: user.email,
-            role: user.role
+            email: user.email
         })
     } catch (error) {
-        res.status(500).json({error})
+        res.statusCode = 500
+        res.json({error})
     }
 }
 
@@ -113,21 +100,21 @@ const put = async (req = request, res = response) => {
         const {username} = req.params
         const user = await User.updateByUsername(username, req.body)
 
-        res.status(200).json({
+        res.statusCode = 200
+        res.json({
             id: user.id,
             createdAt: user.createdAt,
-            email: user.email,
-            role: user.role
+            email: user.email
         })
     } catch (error) {
-        res.status(500).json({error})
+        res.statusCode = 500
+        res.json({error})
     }
 }
 
 module.exports = {
     login,
     register,
-    confirm,
     get,
     delet,
     put,

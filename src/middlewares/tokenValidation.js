@@ -1,5 +1,5 @@
 const User = require('../models/user.model')
-const {getToken, expiredToken} = require('../helpers/jwt')
+const {getToken, expiredToken} = require('../utils/jwt')
 
 module.exports = async (req = request, res = response, next) => {
     const token = req.header('Authorization')

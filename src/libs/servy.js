@@ -90,7 +90,7 @@ module.exports = {
                         <title>Error</title>
                     </head>
                     <body>
-                        <pre>Cannot POST ${req.url}</pre>
+                        <pre>Cannot ${req.method} ${req.url}</pre>
                     </body>
                     </html>
                 `
