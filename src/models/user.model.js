@@ -35,7 +35,8 @@ module.exports = {
     RegisterSchema: z.object({
         username: z.string().min(3).max(255),
         email: z.string().email(),
-        password: z.string().min(3).max(255)
+        password: z.string().min(3).max(255),
+        roles: z.string().min(3).max(255),
     }),
     LoginSchema: z.object({
         username: z.string().min(3).max(255),
@@ -45,5 +46,6 @@ module.exports = {
         username: z.string().min(3).max(255).optional(),
         email: z.string().email().optional(),
         password: z.string().min(3).max(255).optional()
+        // roles: z.string().min(3).max(255).optional()
     }),
 }

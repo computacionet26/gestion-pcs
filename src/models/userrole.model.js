@@ -4,24 +4,21 @@ const prisma = new PrismaClient()
 const {z} = require('zod')
 
 module.exports = {
-    get: async where => await prisma.userrole.findUnique({where}),
-    getAll: async () => await prisma.userrole.findMany(),
-    getById: async id => await prisma.userrole.findUnique({where: {id}}),
+    get: async where => await prisma.userRole.findUnique({where}),
+    getByUserId: async userId => await prisma.userRole.findMany({where: {userId}}),
+    getAll: async () => await prisma.userRole.findMany(),
+    getById: async id => await prisma.userRole.findUnique({where: {id}}),
 
-    register: async data => await prisma.user.create({data}),
+    upload: async data => await prisma.userRole.create({data}),
 
-    delet: async where => await prisma.userrole.delete({where}),
-    deletById: async id => await prisma.userrole.delete({where: {id}}),
+    delet: async where => await prisma.userRole.delete({where}),
+    deletById: async id => await prisma.userRole.delete({where: {id}}),
 
-    update: async (where, data) => await prisma.userrole.update({where, data}),
-    updateById: async (id, data) => await prisma.role.update({where: {id}, data}),
+    update: async (where, data) => await prisma.userRole.update({where, data}),
+    updateById: async (id, data) => await prisma.userRole.update({where: {id}, data}),
 
     UploadSchema: z.object({
         userId: z.string().min(3).max(255),
         roleId: z.string().min(3).max(255),
-    }),
-    UpdateSchema: z.object({
-        userId: z.string().min(3).max(255),
-        roleId: z.string().min(3).max(255),
-    }),
+    })
 }

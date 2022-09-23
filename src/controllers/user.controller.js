@@ -1,13 +1,31 @@
 const User = new require('../models/user.model')
+const Role = new require('../models/role.model')
+const UserRole = new require('../models/userRole.model')
 const {expiredToken, genToken, getToken} = require('../utils/jwt')
 
 const register = async (req = request, res = response) => {
     try {
-        const {username, email, password} = req.body
+        const {username, email, password, roles} = req.body
 
         const user = await User.register({username, email, password})
 
-        res.status(200).json(user)
+        const role = await Role.getByName(roles)
+
+        try {
+            console.log({
+                userId: user.id,
+                roleId: role.id
+            });
+            await UserRole.upload({
+                userId: user.id,
+                roleId: role.id
+            })
+        } catch (error) {
+            console.log(error);
+        }
+        
+
+        res.status(200).json({...user, role: role.name})
     } catch (error) {
         res.status(500).json({error})
     }
