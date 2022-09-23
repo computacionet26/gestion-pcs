@@ -10,8 +10,8 @@ const roleNotExist = require('../middlewares/roleNotExist')
 
 router.get('/', [checkAdmin], controller.getAll)
 router.get('/:name', [checkAdmin, roleExist], controller.get)
-router.post('/', [checkAdmin, parseSchema(Role.UploadSchema), roleNotExist], controller.post)
+router.post('/', [checkAdmin, roleNotExist], controller.post)
 router.delete('/:name', [checkAdmin, roleExist], controller.delet)
-router.put('/:name', [checkAdmin, parseSchema(Role.UpdateSchema), roleExist], controller.put)
+router.put('/:name', [checkAdmin, roleExist, parseSchema(Role.UpdateSchema)], controller.put)
 
 module.exports = router

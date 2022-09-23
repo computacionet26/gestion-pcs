@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 const {z} = require('zod')
 
 module.exports = {
-    get: async where => await prisma.userRole.findUnique({where}),
+    get: async where => await prisma.userRole.findMany({where}),
     getByUserId: async userId => await prisma.userRole.findMany({where: {userId}}),
     getAll: async () => await prisma.userRole.findMany(),
     getById: async id => await prisma.userRole.findUnique({where: {id}}),

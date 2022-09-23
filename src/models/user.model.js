@@ -5,7 +5,7 @@ const {z} = require('zod')
 const bcrypt = require('bcryptjs')
 
 module.exports = {
-    get: async where => await prisma.user.findUnique({where}),
+    get: async where => await prisma.user.findMany({where}),
     getAll: async () => await prisma.user.findMany(),
     getManyByUsername: async username => await prisma.user.findMany({where: {username: {contains: username}}}),
     getByEmail: async email => await prisma.user.findUnique({where: {email}}),
