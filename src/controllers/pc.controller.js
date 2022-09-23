@@ -1,4 +1,5 @@
 const PC = new require('../models/pc.model')
+const Report = new require('../models/report.model')
 
 const get = async (req = request, res = response) => {
     try {
@@ -24,9 +25,17 @@ const getAll = async (req = request, res = response) => {
 
 const report = async (req = request, res = response) => {
     try {
-        // const pc = await Lab.upload(req.body)
-        
-        res.status(200).json(req.body)
+        const pcId = req.params.id
+        const token = req.header('Authorization')
+        const user = await getToken(token)
+        const {desc} = req.body
+
+        const report = await Report.upload({
+            pcId,
+            userId: user.id,
+            desc
+        })
+        res.status(200).json(report)
     } catch (error) {
         res.status(500).json({error})
     }

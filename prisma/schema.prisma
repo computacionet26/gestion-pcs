@@ -27,6 +27,14 @@ model PC {
   labId     String
 }
 
+model Report {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  desc      String
+  userId    String
+  pcId      String
+}
+
 model Role {
   id        String   @id @default(uuid()) 
   name      String   @unique
