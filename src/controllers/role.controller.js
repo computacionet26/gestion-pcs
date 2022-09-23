@@ -8,6 +8,7 @@ const get = async (req = request, res = response) => {
 
         res.status(200).json({
             id: role.id,
+            createdAt: role.createdAt,
             name: role.name
         })
     } catch (error) {
@@ -26,6 +27,7 @@ const getAll = async (req = request, res = response) => {
 }
 
 const post = async (req = request, res = response) => {
+    console.log(req.body);
     try {
         const role = await Role.upload(req.body)
         
@@ -43,8 +45,8 @@ const delet = async (req = request, res = response) => {
 
         res.status(200).json({
             id: role.id,
-            name: role.name,
-            createdAt: role.createdAt
+            createdAt: role.createdAt,
+            name: role.name
         })
     } catch (error) {
         res.status(500).json({error})
@@ -59,8 +61,8 @@ const put = async (req = request, res = response) => {
 
         res.status(200).json({
             id: role.id,
-            name: role.name,
-            createdAt: role.createdAt
+            createdAt: role.createdAt,
+            name: role.name
         })
     } catch (error) {
         res.status(500).json({error})
@@ -68,9 +70,9 @@ const put = async (req = request, res = response) => {
 }
 
 module.exports = {
+    getAll,
     get,
     post,
     delet,
-    put,
-    getAll
+    put
 }

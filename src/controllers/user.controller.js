@@ -107,5 +107,6 @@ module.exports = {
     get,
     delet,
     put,
-    getAll
+    getAll,
+    getById
 }

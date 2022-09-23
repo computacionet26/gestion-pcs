@@ -9,7 +9,7 @@ module.exports = {
     getByName: async name => await prisma.role.findUnique({where: {name}}),
     getById: async id => await prisma.role.findUnique({where: {id}}),
 
-    upload: async data => await prisma.user.create({data}),
+    upload: async data => await prisma.role.create({data}),
 
     delet: async where => await prisma.role.delete({where}),
     deletByName: async name => await prisma.role.delete({where: {name}}),
@@ -22,9 +22,9 @@ module.exports = {
     updateById: async (id, data) => await prisma.role.update({where: {id}, data}),
 
     UploadSchema: z.object({
-        name: z.string().min(3).max(255),
+        name: z.string().min(3).max(255)
     }),
     UpdateSchema: z.object({
-        name: z.string().min(3).max(255).optional(),
-    }),
+        name: z.string().min(3).max(255).optional()
+    })
 }

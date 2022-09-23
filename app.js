@@ -11,6 +11,7 @@ app.use(express.urlencoded({extended: false}))
 app.use(express.static('./public'))
 
 app.use('/user', require('./src/routes/user.route'))
+app.use('/role', require('./src/routes/role.route'))
 
 app.listen(process.env.PORT, () => {
     console.log(`Server on http://localhost:${app.port}`);
