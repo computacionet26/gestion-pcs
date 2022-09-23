@@ -17,8 +17,6 @@ module.exports = {
     updateById: async (id, data) => await prisma.report.update({where: {id}, data}),
 
     UploadSchema: z.object({
-        userId: z.string().min(3).max(255),
-        pcId: z.string().min(3).max(255),
         desc: z.string().min(2).max(255),
     })
 }

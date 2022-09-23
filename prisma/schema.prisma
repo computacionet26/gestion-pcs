@@ -20,10 +20,11 @@ model PC {
   createdAt DateTime @default(now())
   avalible  Boolean  @default(true)
   ram       String
-  gpu       String
+  cpu       String
+  gpu       String?
   disc      String
-  power     String
-  so        String
+  power     String?
+  so        String?
   labId     String
 }
 
