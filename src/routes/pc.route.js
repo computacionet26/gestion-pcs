@@ -1,17 +1,17 @@
 const router = require('express').Router()
 
-const Role = new require('../models/role.model')
-const controller = require('../controllers/role.controller')
+const PC = new require('../models/pc.model')
+const controller = require('../controllers/pc.controller')
 
 const parseSchema = require('../middlewares/parseSchema')
 const checkAdmin = require('../middlewares/checkAdmin')
-const roleExist = require('../middlewares/roleExist')
-const roleNotExist = require('../middlewares/roleNotExist')
+const pcExist = require('../middlewares/pcExist')
 
 router.get('/', [checkAdmin], controller.getAll)
-router.get('/:name', [checkAdmin, roleExist], controller.get)
-router.post('/', [checkAdmin, roleNotExist], controller.post)
-router.delete('/:name', [checkAdmin, roleExist], controller.delet)
-router.put('/:name', [checkAdmin, roleExist, parseSchema(Role.UpdateSchema)], controller.put)
+router.get('/:id', [checkAdmin, pcExist], controller.get)
+router.post('/report/:id', [parseSchema(PC.UpdateSchema), pcExist], controller.report)
+router.post('/', [checkAdmin, parseSchema(PC.UploadSchema)], controller.post)
+router.delete('/:id', [checkAdmin, pcExist], controller.delet)
+router.put('/:id', [checkAdmin, parseSchema(PC.UpdateSchema), pcExist], controller.put)
 
 module.exports = router

@@ -11,19 +11,10 @@ const register = async (req = request, res = response) => {
 
         const role = await Role.getByName(roles)
 
-        try {
-            console.log({
-                userId: user.id,
-                roleId: role.id
-            });
-            await UserRole.upload({
-                userId: user.id,
-                roleId: role.id
-            })
-        } catch (error) {
-            console.log(error);
-        }
-        
+        await UserRole.upload({
+            userId: user.id,
+            roleId: role.id
+        })
 
         res.status(200).json({...user, role: role.name})
     } catch (error) {
@@ -49,11 +40,7 @@ const getById = async (req = request, res = response) => {
 
         const user = await User.getById(id)
 
-        res.status(200).json({
-            username: user.username,
-            createdAt: user.createdAt,
-            email: user.email
-        })
+        res.status(200).json(user)
     } catch (error) {
         res.status(500).json({error})
     }
@@ -65,12 +52,7 @@ const get = async (req = request, res = response) => {
 
         const user = await User.getByUsername(username)
 
-        res.status(200).json({
-            id: user.id,
-            username: user.username,
-            createdAt: user.createdAt,
-            email: user.email
-        })
+        res.status(200).json(user)
     } catch (error) {
         res.status(500).json({error})
     }
@@ -92,12 +74,7 @@ const delet = async (req = request, res = response) => {
 
         const user = await User.deletByUsername(username)
 
-        res.status(200).json({
-            id: user.id,
-            username: user.username,
-            createdAt: user.createdAt,
-            email: user.email
-        })
+        res.status(200).json(user)
     } catch (error) {
         res.status(500).json({error})
     }
@@ -108,12 +85,7 @@ const put = async (req = request, res = response) => {
         const {username} = req.params
         const user = await User.updateByUsername(username, req.body)
 
-        res.status(200).json({
-            id: user.id,
-            username: user.username,
-            createdAt: user.createdAt,
-            email: user.email
-        })
+        res.status(200).json(user)
     } catch (error) {
         res.status(500).json({error})
     }

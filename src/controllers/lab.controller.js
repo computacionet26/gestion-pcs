@@ -6,11 +6,7 @@ const get = async (req = request, res = response) => {
 
         const lab = await Lab.getByName(name)
 
-        res.status(200).json({
-            id: lab.id,
-            createdAt: lab.createdAt,
-            name: lab.name
-        })
+        res.status(200).json(lab)
     } catch (error) {
         res.status(500).json({error})
     }
@@ -42,11 +38,7 @@ const delet = async (req = request, res = response) => {
 
         const lab = await Lab.deletByName(name)
 
-        res.status(200).json({
-            id: lab.id,
-            createdAt: lab.createdAt,
-            name: lab.name
-        })
+        res.status(200).json(lab)
     } catch (error) {
         res.status(500).json({error})
     }
@@ -58,11 +50,7 @@ const put = async (req = request, res = response) => {
 
         const lab = await Lab.updateByName(name, req.body)
 
-        res.status(200).json({
-            id: lab.id,
-            createdAt: lab.createdAt,
-            name: lab.name
-        })
+        res.status(200).json(lab)
     } catch (error) {
         res.status(500).json({error})
     }

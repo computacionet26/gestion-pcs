@@ -30,6 +30,7 @@ module.exports = {
         disc: z.string().min(3).max(255).optional(),
         gpu: z.string().min(3).max(255).optional(),
         power: z.string().min(3).max(255).optional(),
-        labId: z.string().min(3).max(255).optional()
+        labId: z.string().min(3).max(255).optional(),
+        avalibre: z.boolean().optional()
     })
 }
