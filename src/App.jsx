@@ -1,12 +1,18 @@
+import CenterLayout from './components/CenterLayout'
 import Layout from './components/Layout'
 import Login from './components/Login'
+import Dashboard from './components/Dashboard'
+import { useState } from 'react'
 
 function App() {
+  const [session, setSession] = useState(localStorage.getItem('session'))
+
   return (
     <>
-        <Layout>
-          <Login/>
-        </Layout>
+      {session 
+           ? <Layout><Dashboard setSession={setSession}/></Layout>
+           : <CenterLayout><Login setSession={setSession}/></CenterLayout>
+      }
     </>
   )
 }
