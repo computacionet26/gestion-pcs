@@ -27,8 +27,22 @@ const login = async (req = request, res = response) => {
         const user = await User.login(req.body)
 
         const token = await genToken({id: user.id, name: user.username}, '360d')
-       
-        res.status(200).json({token})
+
+        const UserRoles = await UserRole.getByUserId(user.id)
+        
+        const roles = await Promise.all(
+            UserRoles.map(async x => {
+              return (await Role.getById(x.roleId)).name
+            })
+          )
+        console.log(roles);
+
+        res.status(200).json({
+            token,
+            email: user.email,
+            username: user.username,
+            roles
+        })
     } catch (error) {
         res.status(500).json({error})
     }

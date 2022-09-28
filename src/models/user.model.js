@@ -46,6 +46,5 @@ module.exports = {
         username: z.string().min(3).max(255).optional(),
         email: z.string().email().optional(),
         password: z.string().min(3).max(255).optional()
-        // roles: z.string().min(3).max(255).optional()
     }),
 }

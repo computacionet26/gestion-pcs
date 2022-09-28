@@ -4,7 +4,7 @@ module.exports = async (req = request, res = response, next) => {
     try {
         if(req.body.username.includes('@')) {
             req.body.email = req.body.username
-            req.body.username = null
+            delete req.body.username
         }
 
         const {username, email} = req.body
