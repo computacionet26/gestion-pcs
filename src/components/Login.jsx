@@ -24,16 +24,16 @@ function Login({setSession}){
 
     return (
         <div>
-            <form action="http://localhost:3000/user/login" onSubmit={handleSubmit} method="post" className='flex flex-col gap-6 bg-white p-8 rounded shadow'>
+            <form action="http://localhost:3000/user/login" onSubmit={handleSubmit} method="post" className='flex flex-col gap-6 bg-white p-8 rounded shadow-xl'>
                 <div className='flex gap-2 flex-col'>
                     <p className='text-xl text-gray-600 font-semibold'>Nombre o email</p>
-                    <input type="text" onChange={e => setEmail(e.target.value)} name="email" required id="email" placeholder='Tu nombre o email' className='border shadow text-2xl py-2 px-4 focus:outline-slate-300 text-slate-600 rounded'/>
+                    <input type="text" onChange={e => setEmail(e.target.value)} name="email" required id="email" placeholder='Tu nombre o email' className='border border-b-slate-400 py-2 px-4 focus:border-slate-400 focus:outline-none text-2xl text-slate-600'/>
                 </div>
                 <div className='flex gap-2 flex-col'>
                     <p className='text-xl text-gray-600 font-semibold'>Contraseña</p>
-                    <input type="password" onChange={e => setPassword(e.target.value)} name="password" required id="password" placeholder='Tu contraseña' className='border shadow py-2 px-4 focus:outline-slate-300 text-2xl text-slate-600 rounded'/>
+                    <input type="password" onChange={e => setPassword(e.target.value)} name="password" required id="password" placeholder='Tu contraseña' className='border border-b-slate-400 py-2 px-4 focus:border-slate-400 focus:outline-none text-2xl text-slate-600'/>
                 </div>
-                <input type="submit" value="Iniciar sesion" className='border font-semibold bg-slate-500 shadow py-2 px-4 text-white text-2xl cursor-pointer rounded'/>
+                <input type="submit" value="Iniciar sesion" className='font-semibold bg-slate-500 py-2 px-4 text-white text-2xl cursor-pointer'/>
                 {msg !== ''
                     ? <p className='text-red-400 font-semibold text-xl text-center'>{msg}</p>
                     : null
