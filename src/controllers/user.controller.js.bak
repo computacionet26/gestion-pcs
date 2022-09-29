@@ -75,6 +75,19 @@ const getAll = async (req = request, res = response) => {
     try {
         const users = await User.getAll()
 		
+		users.forEach(async user => {
+			const UserRoles = await UserRole.getByUserId(user.id)
+        
+			const roles = await Promise.all(
+				UserRoles.map(async x => {
+				  return (await Role.getById(x.roleId)).name
+				})
+			)
+			
+			user.role = "hola"
+			user.username = "hola"
+		})
+		
 		const userWithRoles = await Promise.all(
 			users.map(async user => {
 				const UserRoles = await UserRole.getByUserId(user.id)
