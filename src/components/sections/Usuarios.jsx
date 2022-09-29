@@ -4,13 +4,14 @@ import { useState, useEffect } from "react"
 export default function(){
     const [users, setUsers] = useState([])
     const [newUserModal, setNewUserModal] = useState(false)
+    const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [msg, setMsg] = useState('')
 
-    const fetchData = async () => {
-        const sessionData = JSON.parse(localStorage.getItem('session'))
+    const sessionData = JSON.parse(localStorage.getItem('session'))
 
+    const fetchData = async () => {
         const updatedUsers = await axios({
             method: "GET",
             url: "http://localhost:3000/user",
@@ -24,17 +25,24 @@ export default function(){
 
     async function handleSubmit(event) {
         event.preventDefault();
-        // try {
-        //     const res = await post('http://localhost:3000/user/login', {
-        //         username: email,
-        //         password
-        //     })
-        //     localStorage.setItem('session', JSON.stringify(res.data))
-        //     setSession(localStorage.getItem('session'))
-        // } catch (error) {
-        //     setMsg(`${email.includes('@') ? 'Email' : 'Nombre'} o contraseña incorrectos`)
-        // }
-        setNewUserModal(false)
+        try {
+            await axios({
+                method: "POST",
+                url: 'http://localhost:3000/user/register',
+                data: {
+                    username,
+                    email,
+                    password,
+                    roles: "TEACHER"
+                },
+                headers: {
+                    Authorization: sessionData.token
+                }
+            })
+            setNewUserModal(false)
+        } catch (error) {
+            setMsg('Ese usuario ya existe')
+        }
     }
 
     useEffect(() => {
@@ -49,7 +57,7 @@ export default function(){
                 <form action="http://localhost:3000/user/login" onSubmit={handleSubmit} method="post" className='flex flex-col gap-6 bg-white p-8 rounded shadow-xl'>
                     <div className='flex gap-2 flex-col'>
                         <p className='text-xl text-gray-600 font-semibold'>Nombre</p>
-                        <input type="text" onChange={e => setEmail(e.target.value)} name="email" required id="email" placeholder='Nombre' className='border border-b-slate-400 py-2 px-4 focus:border-slate-400 focus:outline-none text-2xl text-slate-600'/>
+                        <input type="text" onChange={e => setUsername(e.target.value)} name="username" required id="username" placeholder='Nombre' className='border border-b-slate-400 py-2 px-4 focus:border-slate-400 focus:outline-none text-2xl text-slate-600'/>
                     </div>
                     <div className='flex gap-2 flex-col'>
                         <p className='text-xl text-gray-600 font-semibold'>Email</p>
@@ -64,7 +72,6 @@ export default function(){
                         ? <p className='text-red-400 font-semibold text-xl text-center'>{msg}</p>
                         : null
                     }
-                    
                 </form>
             </div>
             : null}
