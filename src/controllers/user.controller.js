@@ -9,14 +9,20 @@ const register = async (req = request, res = response) => {
 
         const user = await User.register({username, email, password})
 
-        const role = await Role.getByName(roles)
+		const rolesNamesList = roles.split(',')
+		
+		const rolesList = await Promise.all(
+			rolesNamesList.map(async roleName => {
+				const role = await Role.getByName(roleName)
+				
+				await UserRole.upload({
+					userId: user.id,
+					roleId: role.id
+				})
+			})
+		)
 
-        await UserRole.upload({
-            userId: user.id,
-            roleId: role.id
-        })
-
-        res.status(200).json({...user, role: role.name})
+        res.status(200).json({...user, roles})
     } catch (error) {
         res.status(500).json({error})
     }

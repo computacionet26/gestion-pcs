@@ -9,14 +9,20 @@ const register = async (req = request, res = response) => {
 
         const user = await User.register({username, email, password})
 
-        const role = await Role.getByName(roles)
-
-        await UserRole.upload({
+		const rolesNamesList = roles.split(',')
+		
+		const rolesList = await Promise.all(
+			rolesNamesList.map(async roleName => {
+				const role = await Role.getByName(roleName)
+				
+				await UserRole.upload({
             userId: user.id,
             roleId: role.id
         })
+			})
+		)
 
-        res.status(200).json({...user, role: role.name})
+        res.status(200).json({...user, roles})
     } catch (error) {
         res.status(500).json({error})
     }
@@ -74,19 +80,6 @@ const get = async (req = request, res = response) => {
 const getAll = async (req = request, res = response) => {
     try {
         const users = await User.getAll()
-		
-		users.forEach(async user => {
-			const UserRoles = await UserRole.getByUserId(user.id)
-        
-			const roles = await Promise.all(
-				UserRoles.map(async x => {
-				  return (await Role.getById(x.roleId)).name
-				})
-			)
-			
-			user.role = "hola"
-			user.username = "hola"
-		})
 		
 		const userWithRoles = await Promise.all(
 			users.map(async user => {
