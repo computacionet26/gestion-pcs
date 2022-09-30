@@ -20,9 +20,9 @@ module.exports = {
     updateById: async (id, data) => await prisma.lab.update({where: {id}, data}),
 
     UploadSchema: z.object({
-        name: z.string().min(1).max(255)
+        name: z.string().length(1)
     }),
     UpdateSchema: z.object({
-        name: z.string().min(1).max(255)
+        name: z.string().length(1)
     })
 }
