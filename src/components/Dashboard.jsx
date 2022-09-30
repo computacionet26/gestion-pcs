@@ -1,6 +1,8 @@
 import { useState } from "react"
 import SelectionButton from "./SelectionButton"
 import Usuarios from "./sections/Usuarios"
+import Roles from "./sections/Roles"
+import Laboratorios from "./sections/Laboratorios"
 
 function Dashboard({setSession}){
     const session = localStorage.getItem('session')
@@ -13,20 +15,22 @@ function Dashboard({setSession}){
         setSession(null)
     }
 
+    const reportes = ['Reporte1', 'Reporte2', '3']
+
+
+
     function changeSection(){
         if(section == 'reportes'){
-            return (
-                <h1>Reportes</h1>
-            )
+            return <h1>reportes</h1>
         }else if(section == 'usuarios'){
             return <Usuarios></Usuarios>
         }else if(section == 'laboratorios'){
-            return <h1>laboratorios</h1>
+            return <Laboratorios></Laboratorios>
             
         }else if(section == 'computadoras'){
             return <h1>computadoras</h1>
         }else if(section == 'roles'){
-            return <h1>roles</h1>
+            return <Roles></Roles>
         }
     }
 
@@ -38,7 +42,7 @@ function Dashboard({setSession}){
             </header>
 
             <div className="p-4 pr-6 flex gap-4 items-start">
-                <div id="sidebar" className="bg-white sticky top-4 z-10 flex flex-col w-1/4 p-6 gap-1 rounded shadow-lg min-h">
+                <div id="sidebar" className="bg-white sticky top-4 flex flex-col w-1/4 p-6 gap-1 rounded shadow-lg min-h">
                     <SelectionButton setSelection={setSelection} sectionName='Reportes' section={section}/>
                     <SelectionButton setSelection={setSelection} sectionName='Usuarios' section={section}/>
                     <SelectionButton setSelection={setSelection} sectionName='Laboratorios' section={section}/>
