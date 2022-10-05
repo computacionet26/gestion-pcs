@@ -4,8 +4,10 @@ import FormModal from "../FormModal"
 
 export default function(){
     const [roles, setRoles] = useState([])
-    const [modal, setModal] = useState(false)
+    const [addModal, setAddModal] = useState(false)
+    const [updateModal, setUpdateModal] = useState(false)
     const [name, setName] = useState('')
+    const [updateName, setUpdateName] = useState('')
     const [msg, setMsg] = useState('')
 
     const sessionData = JSON.parse(localStorage.getItem('session'))
@@ -34,7 +36,7 @@ export default function(){
                     Authorization: sessionData.token
                 }
             })
-            setModal(false)
+            setAddModal(false)
             fetchData()
         } catch (error) {
             setMsg('Ese rol ya existe')
@@ -51,7 +53,49 @@ export default function(){
                     Authorization: sessionData.token
                 }
             })
-            setModal(false)
+            fetchData()
+        } catch (error) {
+            setMsg('Ese rol no existe')
+        }
+    }
+
+    async function updateRole(event, updateName) {
+        event.preventDefault();
+        try {
+            await axios({
+                method: "PUT",
+                url: `http://localhost:3000/role/${updateName}`,
+                data: {
+                    name
+                },
+                headers: {
+                    Authorization: sessionData.token
+                }
+            })
+            setUpdateModal(false)
+            fetchData()
+        } catch (error) {
+            setMsg('Ese rol no existe')
+        }
+    }
+
+    function updateRoleModal(name){
+        setUpdateName(name)
+        setName(name)
+        setUpdateModal(true)
+    }
+
+    async function removeRole(event, name) {
+        event.preventDefault();
+        try {
+            await axios({
+                method: "DELETE",
+                url: `http://localhost:3000/role/${name}`,
+                headers: {
+                    Authorization: sessionData.token
+                }
+            })
+            setAddModal(false)
             fetchData()
         } catch (error) {
             setMsg('Ese rol no existe')
@@ -65,13 +109,13 @@ export default function(){
     return(
         <div className="flex flex-col gap-2">
 
-            {modal ?
+            {addModal ?
                 <FormModal 
                     url="http://localhost:3000/rol" 
                     methid="POST"
                     submit="Añadir rol"
                     submitCallback={addRole}
-                    modalCallback={setModal}
+                    modalCallback={setAddModal}
                     msg={msg}
                     inputs={[
                         {
@@ -85,14 +129,36 @@ export default function(){
                 />
             : null} 
 
-            <button onClick={() => setModal(true)} className="p-4 rounded font-bold outline outline-1 outline-slate-300 text-slate-600">+ Agergar rol</button>
+            {updateModal ?
+                <FormModal 
+                    url="http://localhost:3000/role" 
+                    methid="POST"
+                    submit="Actualizar rol"
+                    submitCallback={updateRole}
+                    modalCallback={setUpdateModal}
+                    msg={msg}
+                    updateTarget={updateName}
+                    inputs={[
+                        {
+                            title: "Nombre",
+                            type: "text",
+                            name: "name",
+                            onChangeCallback: setName,
+                            required: true,
+                            value: name
+                        }
+                    ]}
+                />
+            : null}
+
+            <button onClick={() => setAddModal(true)} className="p-4 rounded font-bold outline outline-1 outline-slate-300 text-slate-600">+ Agergar rol</button>
             
             {roles.map(role => 
                 <div className="bg-slate-300 p-4 rounded flex justify-between">
                     <h1 className="text-xl text-slate-600 font-semi-bold">{role.name}</h1>
                     {role.name !== 'ADMIN' ?
                         <div className="flex gap-4">
-                            <button className="text-slate-600 text-lg">Editar</button>
+                            <button onClick={() => updateRoleModal(role.name)} className="text-slate-600 text-lg">Editar</button>
                             <button onClick={() => removeRole(event, role.name)} className="text-red-400 text-lg">Eliminar</button>
                         </div>
                         : null

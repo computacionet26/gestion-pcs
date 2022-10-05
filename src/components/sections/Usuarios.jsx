@@ -4,8 +4,10 @@ import FormModal from "../FormModal"
 
 export default function(){
     const [users, setUsers] = useState([])
-    const [modal, setModal] = useState(false)
+    const [addModal, setAddModal] = useState(false)
+    const [updateModal, setUpdateModal] = useState(false)
     const [username, setUsername] = useState('')
+    const [updateUsername, setUpdateUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [msg, setMsg] = useState('')
@@ -39,7 +41,7 @@ export default function(){
                     Authorization: sessionData.token
                 }
             })
-            setModal(false)
+            setAddModal(false)
             fetchData()
         } catch (error) {
             setMsg('Ese usuario ya existe')
@@ -56,11 +58,49 @@ export default function(){
                     Authorization: sessionData.token
                 }
             })
-            setModal(false)
+            setAddModal(false)
             fetchData()
         } catch (error) {
             setMsg('Ese laboratorio no existe')
         }
+    }
+
+    async function updateUser(event, updateUsername) {
+        event.preventDefault();
+        console.log({
+            username,
+            email,
+            password,
+            roles: "TEACHER",
+            updateUsername
+        });
+        try {
+            await axios({
+                method: "PUT",
+                url: `http://localhost:3000/user/${updateUsername}`,
+                data: {
+                    username,
+                    email,
+                    password,
+                    roles: "TEACHER"
+                },
+                headers: {
+                    Authorization: sessionData.token
+                }
+            })
+            setUpdateModal(false)
+            fetchData()
+        } catch (error) {
+            setMsg('Ese usuario no existe')
+        }
+    }
+
+    function updateUserModal(name, email, password){
+        setUpdateUsername(name)
+        setUsername(name)
+        setEmail(email)
+        setPassword('')
+        setUpdateModal(true)
     }
 
     useEffect(() => {
@@ -70,13 +110,13 @@ export default function(){
     return(
         <div className="flex flex-col gap-2">
 
-            {modal ?
+            {addModal ?
                <FormModal
                     url="http://localhost:3000/user/register" 
                     methid="POST"
                     submit="Registrar usuario"
                     submitCallback={addUser}
-                    modalCallback={setModal}
+                    modalCallback={setAddModal}
                     msg={msg}
                     inputs={[
                         {
@@ -104,7 +144,45 @@ export default function(){
                 />
             : null}
 
-            <button onClick={() => setModal(true)} className="p-4 rounded font-bold outline outline-1 outline-slate-300 text-slate-600">+ Registrar usuario</button>
+            {updateModal ?
+               <FormModal
+                    url="http://localhost:3000/user" 
+                    methid="PUT"
+                    submit="Actualizar usuario"
+                    submitCallback={updateUser}
+                    modalCallback={setUpdateModal}
+                    msg={msg}
+                    updateTarget={updateUsername}
+                    inputs={[
+                        {
+                            title: "Nombre",
+                            type: "text",
+                            name: "username",
+                            onChangeCallback: setUsername,
+                            required: true,
+                            value: username
+                        },
+                        {
+                            title: "Email",
+                            type: "text",
+                            name: "email",
+                            onChangeCallback: setEmail,
+                            required: true,
+                            value: email
+                        },
+                        {
+                            title: "Contraseña",
+                            type: "text",
+                            name: "password",
+                            onChangeCallback: setPassword,
+                            required: true,
+                            value: password
+                        }
+                    ]}
+                />
+            : null}
+
+            <button onClick={() => setAddModal(true)} className="p-4 rounded font-bold outline outline-1 outline-slate-300 text-slate-600">+ Registrar usuario</button>
             
             {users.map(user => 
                 <div className="bg-slate-300 p-4 rounded flex justify-between">
@@ -113,7 +191,7 @@ export default function(){
                         <p className="text-slate-400 text-lg">({user.roles})</p>
                     </div>
                     <div className="flex gap-4">
-                        <button className="text-slate-600 text-lg">Editar</button>
+                        <button onClick={() => updateUserModal(user.username, user.email, user.password)} className="text-slate-600 text-lg">Editar</button>
                         <button onClick={e => removeUser(e, user.username)} className="text-red-400 text-lg">Eliminar</button>
                     </div>
                 </div>
