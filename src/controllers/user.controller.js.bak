@@ -16,9 +16,9 @@ const register = async (req = request, res = response) => {
 				const role = await Role.getByName(roleName)
 				
 				await UserRole.upload({
-            userId: user.id,
-            roleId: role.id
-        })
+					userId: user.id,
+					roleId: role.id
+				})
 			})
 		)
 
@@ -117,7 +117,27 @@ const delet = async (req = request, res = response) => {
 const put = async (req = request, res = response) => {
     try {
         const {username} = req.params
-        const user = await User.updateByUsername(username, req.body)
+		const updateUsername = req.body.username
+		const updateEmail = req.body.email
+		const updatePassword = req.body.password
+		
+		console.log('controller', username, {updateUsername, updateEmail, updatePassword})
+		
+		const user = await User.updateByUsername(username, {username: updateUsername, email: updateEmail, password: updatePassword})
+
+		
+		//const rolesNamesList = roles.split(',')
+		
+		//const rolesList = await Promise.all(
+		//	rolesNamesList.map(async roleName => {
+		//		const role = await Role.getByName(roleName)
+		//		
+		//		await UserRole.upload({
+		//			userId: user.id,
+		//			roleId: role.id
+		//		})
+		//	})
+		//)
 
         res.status(200).json(user)
     } catch (error) {
