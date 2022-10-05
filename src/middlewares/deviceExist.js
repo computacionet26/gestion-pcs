@@ -1,11 +1,11 @@
-const PC = require('../models/pc.model')
+const Device = require('../models/device.model')
 
 module.exports = async (req = request, res = response, next) => {
     try {
         const {id} = req.params
 
-        const pcById = await PC.getById(id)
-        if(!pcById) return res.status(400).json({error: 'Incorrect PC ID'})
+        const deviceById = await Device.getById(id)
+        if(!deviceById) return res.status(400).json({error: 'Incorrect device ID'})
     
         next()
     } catch (error) {

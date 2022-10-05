@@ -1,4 +1,4 @@
-const PC = new require('../models/pc.model')
+const Device = new require('../models/device.model')
 const Report = new require('../models/report.model')
 const {getToken, expiredToken} = require('../utils/jwt')
 
@@ -6,9 +6,9 @@ const get = async (req = request, res = response) => {
     try {
         const {id} = req.params
 
-        const pc = await PC.getById(id)
+        const device = await Device.getById(id)
 
-        res.status(200).json(pc)
+        res.status(200).json(device)
     } catch (error) {
         res.status(500).json({error})
     }
@@ -16,9 +16,9 @@ const get = async (req = request, res = response) => {
 
 const getAll = async (req = request, res = response) => {
     try {
-        const pcs = await PC.getAll()
+        const devices = await Device.getAll()
 
-        res.status(200).json(pcs)
+        res.status(200).json(devices)
     } catch (error) {
         res.status(500).json({error})
     }
@@ -51,9 +51,9 @@ const report = async (req = request, res = response) => {
 
 const post = async (req = request, res = response) => {
     try {
-        const pc = await PC.upload(req.body)
+        const device = await Device.upload(req.body)
         
-        res.status(200).json(pc)
+        res.status(200).json(device)
     } catch (error) {
         res.status(500).json({error})
     }
@@ -63,9 +63,9 @@ const delet = async (req = request, res = response) => {
     try {
         const {id} = req.params
 
-        const pc = await PC.deletById(id)
+        const device = await Device.deletById(id)
 
-        res.status(200).json(pc)
+        res.status(200).json(device)
     } catch (error) {
         res.status(500).json({error})
     }
@@ -87,9 +87,9 @@ const put = async (req = request, res = response) => {
     try {
         const {id} = req.params
 
-        const pc = await Lab.updateById(id, req.body)
+        const device = await Device.updateById(id, req.body)
 
-        res.status(200).json(pc)
+        res.status(200).json(device)
     } catch (error) {
         res.status(500).json({error})
     }

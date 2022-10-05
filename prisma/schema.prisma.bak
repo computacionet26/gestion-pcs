@@ -19,7 +19,7 @@ model Device {
   id        String      @id @default(uuid())
   createdAt DateTime    @default(now())
   avalible  Boolean     @default(true)
-  role      DeviceType  @default(PC)
+  role      DeviceType  @default(USER)
   ram       String?
   cpu       String?
   gpu       String?
@@ -32,7 +32,7 @@ model Device {
 
 enum DeviceType {
   PC
-  Impresora3D
+  Impresora 3D
   Impresora
   Proyector
 }

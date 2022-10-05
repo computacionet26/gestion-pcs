@@ -13,7 +13,7 @@ app.use(express.urlencoded({extended: false}))
 app.use('/user', require('./src/routes/user.route'))
 app.use('/role', require('./src/routes/role.route'))
 app.use('/lab', require('./src/routes/lab.route'))
-app.use('/pc', require('./src/routes/pc.route'))
+app.use('/device', require('./src/routes/device.route'))
 
 app.listen(port, () => {
     console.log(`Server on http://localhost:${port}`);
