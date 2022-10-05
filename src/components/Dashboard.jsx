@@ -1,6 +1,8 @@
 import { useState } from "react"
 import SelectionButton from "./SelectionButton"
 import Usuarios from "./sections/Usuarios"
+import Reportes from "./sections/Reportes"
+import Dispositivos from "./sections/Dispositivos"
 import Roles from "./sections/Roles"
 import Laboratorios from "./sections/Laboratorios"
 
@@ -17,20 +19,17 @@ function Dashboard({setSession}){
 
     const reportes = ['Reporte1', 'Reporte2', '3']
 
-
-
     function changeSection(){
         if(section == 'reportes'){
-            return <h1>reportes</h1>
+            return <Reportes/>
         }else if(section == 'usuarios'){
-            return <Usuarios></Usuarios>
+            return <Usuarios/>
         }else if(section == 'laboratorios'){
-            return <Laboratorios></Laboratorios>
-            
-        }else if(section == 'computadoras'){
-            return <h1>computadoras</h1>
+            return <Laboratorios/>
+        }else if(section == 'dispositivos'){
+            return <Dispositivos/>
         }else if(section == 'roles'){
-            return <Roles></Roles>
+            return <Roles/>
         }
     }
 
@@ -46,7 +45,7 @@ function Dashboard({setSession}){
                     <SelectionButton setSelection={setSelection} sectionName='Reportes' section={section}/>
                     <SelectionButton setSelection={setSelection} sectionName='Usuarios' section={section}/>
                     <SelectionButton setSelection={setSelection} sectionName='Laboratorios' section={section}/>
-                    <SelectionButton setSelection={setSelection} sectionName='Computadoras' section={section}/>
+                    <SelectionButton setSelection={setSelection} sectionName='Dispositivos' section={section}/>
                     <SelectionButton setSelection={setSelection} sectionName='Roles' section={section}/>
                 </div>
 
