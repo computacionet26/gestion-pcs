@@ -1,15 +1,15 @@
 import axios from "axios"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import FormModal from "../FormModal"
 
 export default function(){
     const [users, setUsers] = useState([])
     const [addModal, setAddModal] = useState(false)
     const [updateModal, setUpdateModal] = useState(false)
-    const [username, setUsername] = useState('')
-    const [updateUsername, setUpdateUsername] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const username = useRef('')
+    const updateUsername = useRef('')
+    const email = useRef('')
+    const password = useRef('')
     const [msg, setMsg] = useState('')
 
     const sessionData = JSON.parse(localStorage.getItem('session'))
@@ -27,14 +27,20 @@ export default function(){
 
     async function addUser(event) {
         event.preventDefault();
+        console.log("ref values", {
+            username: username.current.value,
+            email: email.current.value,
+            password: password.current.value,
+            roles: "TEACHER"
+        });
         try {
             await axios({
                 method: "POST",
                 url: 'http://localhost:3000/user/register',
                 data: {
-                    username,
-                    email,
-                    password,
+                    username: username.current.value,
+                    email: email.current.value,
+                    password: password.current.value,
                     roles: "TEACHER"
                 },
                 headers: {
@@ -48,8 +54,7 @@ export default function(){
         }
     }
 
-    async function removeUser(event, username) {
-        event.preventDefault();
+    async function removeUser(username) {
         try {
             await axios({
                 method: "DELETE",
@@ -65,23 +70,16 @@ export default function(){
         }
     }
 
-    async function updateUser(event, updateUsername) {
+    async function updateUser(event) {
         event.preventDefault();
-        console.log({
-            username,
-            email,
-            password,
-            roles: "TEACHER",
-            updateUsername
-        });
         try {
             await axios({
                 method: "PUT",
-                url: `http://localhost:3000/user/${updateUsername}`,
+                url: `http://localhost:3000/user/${updateUsername.current.value}`,
                 data: {
-                    username,
-                    email,
-                    password,
+                    username: username.current.value,
+                    email: email.current.value,
+                    password: password.current.value,
                     roles: "TEACHER"
                 },
                 headers: {
@@ -95,11 +93,11 @@ export default function(){
         }
     }
 
-    function updateUserModal(name, email, password){
-        setUpdateUsername(name)
-        setUsername(name)
-        setEmail(email)
-        setPassword('')
+    function updateUserModal(username_, email_, password_){
+        updateUsername.current = {value: username_}
+        username.current = {value: username_}
+        email.current = {value: email_}
+        password.current = {value: ''}
         setUpdateModal(true)
     }
 
@@ -123,21 +121,21 @@ export default function(){
                             title: "Nombre",
                             type: "text",
                             name: "username",
-                            onChangeCallback: setUsername,
+                            ref: username,
                             required: true
                         },
                         {
                             title: "Email",
                             type: "text",
                             name: "email",
-                            onChangeCallback: setEmail,
+                            ref: email,
                             required: true
                         },
                         {
                             title: "Contraseña",
                             type: "text",
                             name: "password",
-                            onChangeCallback: setPassword,
+                            ref: password,
                             required: true
                         }
                     ]}
@@ -152,31 +150,30 @@ export default function(){
                     submitCallback={updateUser}
                     modalCallback={setUpdateModal}
                     msg={msg}
-                    updateTarget={updateUsername}
                     inputs={[
                         {
                             title: "Nombre",
                             type: "text",
                             name: "username",
-                            onChangeCallback: setUsername,
+                            ref: username,
                             required: true,
-                            value: username
+                            value: username.current.value
                         },
                         {
                             title: "Email",
                             type: "text",
                             name: "email",
-                            onChangeCallback: setEmail,
+                            ref: email,
                             required: true,
-                            value: email
+                            value: email.current.value
                         },
                         {
                             title: "Contraseña",
                             type: "text",
                             name: "password",
-                            onChangeCallback: setPassword,
+                            ref: password,
                             required: true,
-                            value: password
+                            value: password.current.value
                         }
                     ]}
                 />
@@ -192,7 +189,7 @@ export default function(){
                     </div>
                     <div className="flex gap-4">
                         <button onClick={() => updateUserModal(user.username, user.email, user.password)} className="text-slate-600 text-lg">Editar</button>
-                        <button onClick={e => removeUser(e, user.username)} className="text-red-400 text-lg">Eliminar</button>
+                        <button onClick={() => removeUser(user.username)} className="text-red-400 text-lg">Eliminar</button>
                     </div>
                 </div>
             )}

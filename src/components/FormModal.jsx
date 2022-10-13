@@ -17,13 +17,13 @@ export default function({url, method, submit, inputs, submitCallback, modalCallb
                             name={input.name}
                             id={input.id}
                             placeholder={input.placeholder}
-                            onChangeCallback={input.onChangeCallback}
+                            refIndex={input.ref}
                             required={input.required}
                             value={input.value}
+                            children={input.children}
                         />
                     )
-                    : 
-                    (() => {
+                    : (() => {
                         const mid = inputs.length/2
                         const first = inputs.slice(0, mid);
                         const second = inputs.slice(mid);
@@ -36,9 +36,10 @@ export default function({url, method, submit, inputs, submitCallback, modalCallb
                                             name={input.name}
                                             id={input.id}
                                             placeholder={input.placeholder}
-                                            onChangeCallback={input.onChangeCallback}
+                                            ref={input.ref}
                                             required={input.required}
                                             value={input.value}
+                                            children={input.children}
                                         />                                
                                 )}
                             </div>
@@ -50,9 +51,10 @@ export default function({url, method, submit, inputs, submitCallback, modalCallb
                                             name={input.name}
                                             id={input.id}
                                             placeholder={input.placeholder}
-                                            onChangeCallback={input.onChangeCallback}
+                                            ref={input.ref}
                                             required={input.required}
                                             value={input.value}
+                                            children={input.children}
                                         />                                
                                 )}
                             </div> 

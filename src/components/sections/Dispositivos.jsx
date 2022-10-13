@@ -1,16 +1,21 @@
 import axios from "axios"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import FormModal from "../FormModal"
 
 export default function(){
     const [users, setUsers] = useState([])
     const [addModal, setAddModal] = useState(false)
     const [updateModal, setUpdateModal] = useState(false)
-    const [username, setUsername] = useState('')
-    const [updateUsername, setUpdateUsername] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
     const [msg, setMsg] = useState('')
+    const type = useRef('')
+    const os = useRef('')
+    const ram = useRef('')
+    const cpu = useRef('')
+    const gpu = useRef('')
+    const storage = useRef('')
+    const power = useRef('')
+    const work = useRef('')
+    const lab = useRef('')
 
     const sessionData = JSON.parse(localStorage.getItem('session'))
 
@@ -122,38 +127,47 @@ export default function(){
                     split='true'
                     inputs={[
                         {
+                            title: "Dispositivo",
+                            type: "select",
+                            name: "type",
+                            ref: type,
+                            children: `
+                                <option>asd</option>
+                            `
+                        },
+                        {
                             title: "RAM",
                             type: "text",
                             name: "ram",
-                            onChangeCallback: setUsername,
+                            ref: ram, 
                             required: true
                         },
                         {
                             title: "Sistema operativo",
                             type: "text",
+                            ref: os,
                             name: "email",
-                            onChangeCallback: setEmail,
                             required: true
                         },
                         {
                             title: "Almacenamiento",
                             type: "text",
                             name: "password",
-                            onChangeCallback: setPassword,
+                            ref: storage,
                             required: true
                         },
                         {
                             title: "Procesador",
                             type: "text",
                             name: "password",
-                            onChangeCallback: setPassword,
+                            ref: cpu,
                             required: true
                         },
                         {
                             title: "Tarjeta de video",
                             type: "text",
                             name: "password",
-                            onChangeCallback: setPassword,
+                            ref: gpu,
                             required: true
                         }
                         ,
@@ -161,21 +175,21 @@ export default function(){
                             title: "Fuente de poder",
                             type: "text",
                             name: "password",
-                            onChangeCallback: setPassword,
+                            ref: power,
                             required: true
                         },
                         {
                             title: "Laboratorio",
                             type: "text",
                             name: "password",
-                            onChangeCallback: setPassword,
+                            ref: lab,
                             required: true
                         },
                         {
                             title: "Funciona",
                             type: "checkbox",
                             name: "password",
-                            onChangeCallback: setPassword,
+                            ref: work,
                             required: true
                         }
                     ]}

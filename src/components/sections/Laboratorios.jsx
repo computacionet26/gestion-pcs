@@ -1,13 +1,13 @@
 import axios from "axios"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import FormModal from "../FormModal"
 
 export default function(){
     const [labs, setLabs] = useState([])
     const [addModal, setAddModal] = useState(false)
     const [updateModal, setUpdateModal] = useState(false)
-    const [name, setName] = useState('')
-    const [updateName, setUpdateName] = useState('')
+    const name = useRef('')
+    const updateName = useRef('')
     const [msg, setMsg] = useState('')
 
     const sessionData = JSON.parse(localStorage.getItem('session'))
@@ -30,7 +30,7 @@ export default function(){
                 method: "POST",
                 url: 'http://localhost:3000/lab',
                 data: {
-                    name
+                    name: name.current.value
                 },
                 headers: {
                     Authorization: sessionData.token
@@ -43,8 +43,7 @@ export default function(){
         }
     }
 
-    async function removeLab(event, name) {
-        event.preventDefault();
+    async function removeLab(name) {
         try {
             await axios({
                 method: "DELETE",
@@ -59,20 +58,20 @@ export default function(){
         }
     }
 
-    function updateLabModal(name){
-        setUpdateName(name)
-        setName(name)
+    function updateLabModal(name_){
+        updateName.current = {value: name_}
+        name.current = {value: name_}
         setUpdateModal(true)
     }
 
-    async function updateLab(event, updateName) {
+    async function updateLab(event) {
         event.preventDefault();
         try {
             await axios({
                 method: "PUT",
-                url: `http://localhost:3000/lab/${updateName}`,
+                url: `http://localhost:3000/lab/${updateName.current.value}`,
                 data: {
-                    name
+                    name: name.current.value
                 },
                 headers: {
                     Authorization: sessionData.token
@@ -105,7 +104,7 @@ export default function(){
                             title: "Nombre",
                             type: "text",
                             name: "name",
-                            onChangeCallback: setName,
+                            ref: name,
                             required: true
                         }
                     ]}
@@ -120,15 +119,14 @@ export default function(){
                     submitCallback={updateLab}
                     modalCallback={setUpdateModal}
                     msg={msg}
-                    updateTarget={updateName}
                     inputs={[
                         {
                             title: "Nombre",
                             type: "text",
                             name: "name",
-                            onChangeCallback: setName,
+                            ref: name,
                             required: true,
-                            value: name
+                            value: name.current.value
                         }
                     ]}
                 />
@@ -142,7 +140,7 @@ export default function(){
                     {lab.name !== 'ADMIN' ?
                         <div className="flex gap-4">
                             <button onClick={() => updateLabModal(lab.name)} className="text-slate-600 text-lg">Editar</button>
-                            <button onClick={e => removeLab(e, lab.name)} className="text-red-400 text-lg">Eliminar</button>
+                            <button onClick={() => removeLab(lab.name)} className="text-red-400 text-lg">Eliminar</button>
                         </div>
                     : null}
                 </div>

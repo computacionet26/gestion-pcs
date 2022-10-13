@@ -1,13 +1,13 @@
 import axios from "axios"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import FormModal from "../FormModal"
 
 export default function(){
     const [roles, setRoles] = useState([])
     const [addModal, setAddModal] = useState(false)
     const [updateModal, setUpdateModal] = useState(false)
-    const [name, setName] = useState('')
-    const [updateName, setUpdateName] = useState('')
+    const name = useRef('')
+    const updateName = useRef('')
     const [msg, setMsg] = useState('')
 
     const sessionData = JSON.parse(localStorage.getItem('session'))
@@ -30,7 +30,7 @@ export default function(){
                 method: "POST",
                 url: 'http://localhost:3000/role',
                 data: {
-                    name
+                    name: name.current.value
                 },
                 headers: {
                     Authorization: sessionData.token
@@ -43,30 +43,14 @@ export default function(){
         }
     }
 
-    async function removeRole(event, name) {
-        event.preventDefault();
-        try {
-            await axios({
-                method: "DELETE",
-                url: `http://localhost:3000/role/${name}`,
-                headers: {
-                    Authorization: sessionData.token
-                }
-            })
-            fetchData()
-        } catch (error) {
-            setMsg('Ese rol no existe')
-        }
-    }
-
-    async function updateRole(event, updateName) {
+    async function updateRole(event) {
         event.preventDefault();
         try {
             await axios({
                 method: "PUT",
-                url: `http://localhost:3000/role/${updateName}`,
+                url: `http://localhost:3000/role/${updateName.current.value}`,
                 data: {
-                    name
+                    name: name.current.value
                 },
                 headers: {
                     Authorization: sessionData.token
@@ -79,14 +63,13 @@ export default function(){
         }
     }
 
-    function updateRoleModal(name){
-        setUpdateName(name)
-        setName(name)
+    function updateRoleModal(name_){
+        updateName.current = {value: name_}
+        name.current = {value: name_}
         setUpdateModal(true)
     }
 
-    async function removeRole(event, name) {
-        event.preventDefault();
+    async function removeRole(name) {
         try {
             await axios({
                 method: "DELETE",
@@ -122,7 +105,7 @@ export default function(){
                             title: "Nombre",
                             type: "text",
                             name: "name",
-                            onChangeCallback: setName,
+                            ref: name,
                             required: true
                         }
                     ]}
@@ -143,9 +126,9 @@ export default function(){
                             title: "Nombre",
                             type: "text",
                             name: "name",
-                            onChangeCallback: setName,
+                            ref: name,
                             required: true,
-                            value: name
+                            value: name.current.value
                         }
                     ]}
                 />
@@ -159,7 +142,7 @@ export default function(){
                     {role.name !== 'ADMIN' ?
                         <div className="flex gap-4">
                             <button onClick={() => updateRoleModal(role.name)} className="text-slate-600 text-lg">Editar</button>
-                            <button onClick={() => removeRole(event, role.name)} className="text-red-400 text-lg">Eliminar</button>
+                            <button onClick={() => removeRole(role.name)} className="text-red-400 text-lg">Eliminar</button>
                         </div>
                         : null
                     }
