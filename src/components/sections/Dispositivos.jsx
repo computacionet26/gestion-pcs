@@ -131,9 +131,7 @@ export default function(){
                             type: "select",
                             name: "type",
                             ref: type,
-                            children: `
-                                <option>asd</option>
-                            `
+                            children: ['PC','Impresora 3D','Proyector']
                         },
                         {
                             title: "RAM",

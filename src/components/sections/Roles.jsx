@@ -134,7 +134,7 @@ export default function(){
                 />
             : null}
 
-            <button onClick={() => setAddModal(true)} className="p-4 rounded font-bold outline outline-1 outline-slate-300 text-slate-600">+ Agergar rol</button>
+            <button onClick={() => setAddModal(true)} className="p-4 rounded font-bold outline outline-1 outline-slate-300 text-slate-600">+ Añadir rol</button>
             
             {roles.map(role => 
                 <div className="bg-slate-300 p-4 rounded flex justify-between">

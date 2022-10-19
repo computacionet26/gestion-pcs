@@ -21,6 +21,7 @@ export default function({url, method, submit, inputs, submitCallback, modalCallb
                             required={input.required}
                             value={input.value}
                             children={input.children}
+                            options={input.options}
                         />
                     )
                     : (() => {

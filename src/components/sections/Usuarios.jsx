@@ -10,6 +10,7 @@ export default function(){
     const updateUsername = useRef('')
     const email = useRef('')
     const password = useRef('')
+    const roles = useRef('')
     const [msg, setMsg] = useState('')
 
     const sessionData = JSON.parse(localStorage.getItem('session'))
@@ -27,12 +28,6 @@ export default function(){
 
     async function addUser(event) {
         event.preventDefault();
-        console.log("ref values", {
-            username: username.current.value,
-            email: email.current.value,
-            password: password.current.value,
-            roles: "TEACHER"
-        });
         try {
             await axios({
                 method: "POST",
@@ -41,7 +36,7 @@ export default function(){
                     username: username.current.value,
                     email: email.current.value,
                     password: password.current.value,
-                    roles: "TEACHER"
+                    roles: roles.current.value
                 },
                 headers: {
                     Authorization: sessionData.token
@@ -80,7 +75,7 @@ export default function(){
                     username: username.current.value,
                     email: email.current.value,
                     password: password.current.value,
-                    roles: "TEACHER"
+                    roles: roles.current.value,
                 },
                 headers: {
                     Authorization: sessionData.token
@@ -137,6 +132,13 @@ export default function(){
                             name: "password",
                             ref: password,
                             required: true
+                        },
+                        {
+                            title: "Rol",
+                            type: "select",
+                            name: "roles",
+                            ref: roles,
+                            children: ['TEACHER','TECNIC','ADMIN']
                         }
                     ]}
                 />
@@ -174,6 +176,13 @@ export default function(){
                             ref: password,
                             required: true,
                             value: password.current.value
+                        },
+                        {
+                            title: "Rol",
+                            type: "select",
+                            name: "roles",
+                            ref: roles,
+                            children: ['TEACHER','TECNIC','ADMIN']
                         }
                     ]}
                 />
