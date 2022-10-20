@@ -22,6 +22,7 @@ export default function({url, method, submit, inputs, submitCallback, modalCallb
                             value={input.value}
                             children={input.children}
                             options={input.options}
+                            isChecked={input.checked}
                         />
                     )
                     : (() => {

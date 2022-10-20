@@ -1,10 +1,13 @@
 import axios from "axios"
+import QRCode from "qrcode"
 import { useState, useEffect, useRef } from "react"
 import FormModal from "../FormModal"
+import QRCanvas from "../QRCanvas"
 
 export default function(){
-    const [users, setUsers] = useState([])
+    const [devices, setDevices] = useState([])
     const [addModal, setAddModal] = useState(false)
+    const [QRModal, setQRModal] = useState(false)
     const [updateModal, setUpdateModal] = useState(false)
     const [msg, setMsg] = useState('')
     const type = useRef('')
@@ -12,36 +15,56 @@ export default function(){
     const ram = useRef('')
     const cpu = useRef('')
     const gpu = useRef('')
-    const storage = useRef('')
+    const disc = useRef('')
     const power = useRef('')
-    const work = useRef('')
     const lab = useRef('')
+    const labs = useRef([])
+    const labsNames = useRef([])
+
+    const QRDeviceProps = useRef(null)
 
     const sessionData = JSON.parse(localStorage.getItem('session'))
 
     const fetchData = async () => {
-        const updatedUsers = await axios({
+        const devicesData = await axios({
             method: "GET",
-            url: "http://localhost:3000/user",
+            url: "http://localhost:3000/device",
             headers: {
                 Authorization: sessionData.token
             }
         })
-        setUsers(updatedUsers.data);
+        const labsData = await axios({
+            method: "GET",
+            url: "http://localhost:3000/lab",
+            headers: {
+                Authorization: sessionData.token
+            }
+        })
+        labs.current = {value: labsData.data}
+        labsNames.current = {value: labsData.data.map(lab => lab.name)}
+        setDevices(devicesData.data)
     }
 
-    async function addUser(event) {
+    async function addDevice(event) {
         event.preventDefault();
+
+        const formData = new FormData(event.target)
+        const formProps = Object.fromEntries(formData)
+
+        formProps.labId = labs.current.value.find(lab => lab.name == formProps.lab).id
+
+        Object.entries(formProps).forEach(([key, value]) => {
+            if(value === '') delete formProps[key]
+        })
+
+        console.log(formProps);
+        console.log(formProps);
+
         try {
             await axios({
                 method: "POST",
-                url: 'http://localhost:3000/user/register',
-                data: {
-                    username,
-                    email,
-                    password,
-                    roles: "TEACHER"
-                },
+                url: 'http://localhost:3000/device',
+                data: formProps,
                 headers: {
                     Authorization: sessionData.token
                 }
@@ -49,16 +72,15 @@ export default function(){
             setAddModal(false)
             fetchData()
         } catch (error) {
-            setMsg('Ese usuario ya existe')
+            setMsg('Hubo un error')
         }
     }
 
-    async function removeUser(event, username) {
-        event.preventDefault();
+    async function removeDevice(id) {
         try {
             await axios({
                 method: "DELETE",
-                url: `http://localhost:3000/user/${username}`,
+                url: `http://localhost:3000/device/${id}`,
                 headers: {
                     Authorization: sessionData.token
                 }
@@ -66,47 +88,27 @@ export default function(){
             setAddModal(false)
             fetchData()
         } catch (error) {
-            setMsg('Ese laboratorio no existe')
+            setMsg('Ese dispositivo no existe')
         }
     }
 
-    async function updateUser(event, updateUsername) {
-        event.preventDefault();
-        console.log({
-            username,
-            email,
-            password,
-            roles: "TEACHER",
-            updateUsername
-        });
-        try {
-            await axios({
-                method: "PUT",
-                url: `http://localhost:3000/user/${updateUsername}`,
-                data: {
-                    username,
-                    email,
-                    password,
-                    roles: "TEACHER"
-                },
-                headers: {
-                    Authorization: sessionData.token
-                }
-            })
-            setUpdateModal(false)
-            fetchData()
-        } catch (error) {
-            setMsg('Ese usuario no existe')
-        }
+    async function openQRModal(device){
+        QRDeviceProps.current = device
+        QRDeviceProps.current.img = await QRCode.toDataURL(`http://localhost:3000/device/report/${device.id}`)
+        setQRModal(true)
     }
 
-    function updateUserModal(name, email, password){
-        setUpdateUsername(name)
-        setUsername(name)
-        setEmail(email)
-        setPassword('')
-        setUpdateModal(true)
-    }
+    // async function genQR(id){
+    //     const qr = 
+    //     let a = document.createElement('a');
+    //     a.href = qr;
+    //     a.download = `${id}.png`;
+    //     document.body.appendChild(a);
+    //     a.click();
+    //     document.body.removeChild(a);
+    //     console.log(qr);
+    //     return qr
+    // }
 
     useEffect(() => {
         fetchData()
@@ -115,13 +117,19 @@ export default function(){
     return(
         <div className="flex flex-col gap-2">
 
+            {QRModal &&
+                <div onClick={() => setQRModal(false)} className="fixed w-screen h-screen bg-opacity-50 bg-slate-600 top-0 left-0 flex justify-center items-center">
+                    <QRCanvas device={QRDeviceProps.current}></QRCanvas>
+                </div>
+            }
+
             {addModal ?
                <FormModal
-                    className='scale-50'
-                    url="http://localhost:3000/user/register" 
+                    className='scale-5'
+                    url="http://localhost:3000/device" 
                     methid="POST"
                     submit="Agregar dispositivo"
-                    submitCallback={addUser}
+                    submitCallback={addDevice}
                     modalCallback={setAddModal}
                     msg={msg}
                     split='true'
@@ -131,70 +139,57 @@ export default function(){
                             type: "select",
                             name: "type",
                             ref: type,
-                            children: ['PC','Impresora 3D', 'Impresora','Proyector']
+                            children: ['PC','Impresora3D', 'Impresora','Proyector']
                         },
                         {
                             title: "RAM",
                             type: "text",
                             name: "ram",
                             ref: ram, 
-                            required: true
                         },
                         {
                             title: "Sistema operativo",
                             type: "text",
                             ref: os,
-                            name: "email",
-                            required: true
+                            name: "os",
                         },
                         {
                             title: "Almacenamiento",
                             type: "text",
-                            name: "password",
-                            ref: storage,
-                            required: true
+                            name: "disc",
+                            ref: disc,
                         },
                         {
                             title: "Procesador",
                             type: "text",
-                            name: "password",
+                            name: "cpu",
                             ref: cpu,
-                            required: true
                         },
                         {
                             title: "Tarjeta de video",
                             type: "text",
-                            name: "password",
+                            name: "gpu",
                             ref: gpu,
-                            required: true
                         }
                         ,
                         {
                             title: "Fuente de poder",
                             type: "text",
-                            name: "password",
+                            name: "power",
                             ref: power,
-                            required: true
                         },
                         {
                             title: "Laboratorio",
-                            type: "text",
-                            name: "password",
+                            type: "select",
+                            name: "lab",
                             ref: lab,
-                            required: true
+                            children: labsNames.current.value
                         },
-                        {
-                            title: "Funciona",
-                            type: "checkbox",
-                            name: "password",
-                            ref: work,
-                            required: true
-                        }
                     ]}
                 />
             : null}
 
-            {updateModal ?
+            {/* {updateModal ?
                <FormModal
                     url="http://localhost:3000/user" 
                     methid="PUT"
@@ -230,19 +225,21 @@ export default function(){
                         }
                     ]}
                 />
-            : null}
+            : null} */}
 
             <button onClick={() => setAddModal(true)} className="p-4 rounded font-bold outline outline-1 outline-slate-300 text-slate-600">+ Añadir dispositivo</button>
             
-            {users.map(user => 
+            {devices.map(device => 
                 <div className="bg-slate-300 p-4 rounded flex justify-between">
                     <div className="flex gap-2 items-center">
-                        <h1 className="text-xl text-slate-600 font-semi-bold">{user.username}</h1>
-                        <p className="text-slate-400 text-lg">({user.roles})</p>
+                        <h1 className="text-xl text-slate-600 font-semi-bold">{device.type}</h1>
+                        <p className="text-slate-400 text-lg">({device.lab})</p>
+                        <p className="text-slate-400 text-lg">({device.id})</p>
                     </div>
                     <div className="flex gap-4">
-                        <button onClick={() => updateUserModal(user.username, user.email, user.password)} className="text-slate-600 text-lg">Editar</button>
-                        <button onClick={e => removeUser(e, user.username)} className="text-red-400 text-lg">Eliminar</button>
+                        <button onClick={() => openQRModal(device)} className="text-green-600 text-lg">QR</button>
+                        {/* <button onClick={() => updateUserModal(user.username, user.email, user.password)} className="text-slate-600 text-lg">Editar</button> */}
+                        <button onClick={() => removeDevice(device.id)} className="text-red-400 text-lg">Eliminar</button>
                     </div>
                 </div>
             )}
