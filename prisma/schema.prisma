@@ -16,16 +16,15 @@ model User {
 }
 
 model Device {
-  id        String      @id @default(uuid())
+  id        Int         @id @default(autoincrement())
   createdAt DateTime    @default(now())
-  avalible  Boolean     @default(true)
-  role      DeviceType  @default(PC)
+  type      DeviceType  @default(PC)
   ram       String?
   cpu       String?
   gpu       String?
   disc      String?
   power     String?
-  so        String?
+  os        String?
   lab       String
   labId     String
 }

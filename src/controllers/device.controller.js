@@ -50,6 +50,7 @@ const report = async (req = request, res = response) => {
 }
 
 const post = async (req = request, res = response) => {
+    console.log(req.body);
     try {
         const device = await Device.upload(req.body)
         

@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/computacionet26/armado-reparacion#readme",
   "devDependencies": {
-    "prisma": "^4.3.1"
+    "prisma": "^4.5.0"
   },
   "dependencies": {
     "@prisma/client": "^4.3.1",
