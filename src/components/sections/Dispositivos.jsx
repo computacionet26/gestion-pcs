@@ -94,7 +94,7 @@ export default function(){
 
     async function openQRModal(device){
         QRDeviceProps.current = device
-        QRDeviceProps.current.img = await QRCode.toDataURL(`http://localhost:3000/device/report/${device.id}`)
+        QRDeviceProps.current.img = await QRCode.toDataURL(`http://127.0.0.1:5173/report/${device.id}`)
         setQRModal(true)
     }
 

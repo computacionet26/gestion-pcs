@@ -24,7 +24,7 @@ export default function({device}) {
                 const img = canvas.toDataURL('image/png')
                 const a = document.createElement("a")
                 a.href = img
-                a.download = `ID ${device.id} - LAB ${device.lab} .png`;
+                a.download = `ID ${device.id} - LAB ${device.lab}.png`;
                 document.body.appendChild(a)
                 a.click()
                 document.body.removeChild(a) 
