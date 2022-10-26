@@ -1,8 +1,10 @@
 const Device = new require('../models/device.model')
 const Report = new require('../models/report.model')
+const User = new require('../models/user.model')
 const {getToken, expiredToken} = require('../utils/jwt')
 
 const get = async (req = request, res = response) => {
+    console.log({ref: 'device_get', body: req.body, params: req.params});
     try {
         const {id} = req.params
 
@@ -15,6 +17,7 @@ const get = async (req = request, res = response) => {
 }
 
 const getAll = async (req = request, res = response) => {
+    console.log({ref: 'device_get_all', body: req.body, params: req.params});
     try {
         const devices = await Device.getAll()
 
@@ -25,25 +28,36 @@ const getAll = async (req = request, res = response) => {
 }
 
 const report = async (req = request, res = response) => {
-    console.log(req.body);
+    console.log({ref: 'device_report', body: req.body, params: req.params});
     try {
-        const pcId = req.params.id
+        const deviceId = req.params.id
         const token = req.header('Authorization')
         const user = await getToken(token)
         const {desc} = req.body
 
-        console.log({
-            pcId,
-            userId: user.id,
-            desc
-        });
+        const device = await Device.getById(parseInt(deviceId))
 
         const report = await Report.upload({
-            pcId,
+            deviceId,
+            deviceType: device.type,
+            lab: device.lab,
+            labId: device.labId,
             userId: user.id,
+            user: user.name,
             desc
         })
         res.status(200).json(report)
+    } catch (error) {
+        console.log({ref: 'device_controller', error});
+        res.status(500).json({error})
+    }
+}
+
+const reports = async (req = request, res = response) => {
+    try {
+        const reports = await Report.getAll()
+
+        res.status(200).json(reports)
     } catch (error) {
         res.status(500).json({error})
     }
@@ -100,6 +114,7 @@ module.exports = {
     getAll,
     get,
     report,
+    reports,
     deleteReport,
     post,
     delet,

@@ -13,7 +13,7 @@ module.exports = async (req = request, res = response, next) => {
 
         const userById = await User.getById(user.id)
 
-        if(!userById) return res.status(400).json({error: "Invalid authorization token"})
+        if(!userById) return res.status(400).json({ref: "check_user", error: "Invalid authorization token"})
 
         next()
     } catch (error) {

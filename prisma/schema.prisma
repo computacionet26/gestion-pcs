@@ -37,11 +37,15 @@ enum DeviceType {
 }
 
 model Report {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  desc      String
-  userId    String
-  pcId      String
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  desc        String
+  userId      String
+  user        String
+  deviceId    String
+  deviceType  String
+  labId       String
+  lab         String
 }
 
 model Role {
