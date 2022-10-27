@@ -46,6 +46,7 @@ model Report {
   deviceType  String
   labId       String
   lab         String
+  resolved    Boolean  @default(false)
 }
 
 model Role {

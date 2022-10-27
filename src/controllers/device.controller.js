@@ -4,7 +4,6 @@ const User = new require('../models/user.model')
 const {getToken, expiredToken} = require('../utils/jwt')
 
 const get = async (req = request, res = response) => {
-    console.log({ref: 'device_get', body: req.body, params: req.params});
     try {
         const {id} = req.params
 
@@ -17,7 +16,6 @@ const get = async (req = request, res = response) => {
 }
 
 const getAll = async (req = request, res = response) => {
-    console.log({ref: 'device_get_all', body: req.body, params: req.params});
     try {
         const devices = await Device.getAll()
 
@@ -28,7 +26,6 @@ const getAll = async (req = request, res = response) => {
 }
 
 const report = async (req = request, res = response) => {
-    console.log({ref: 'device_report', body: req.body, params: req.params});
     try {
         const deviceId = req.params.id
         const token = req.header('Authorization')
@@ -78,7 +75,7 @@ const delet = async (req = request, res = response) => {
     try {
         const {id} = req.params
 
-        const device = await Device.deletById(id)
+        const device = await Device.deletById(parseInt(id))
 
         res.status(200).json(device)
     } catch (error) {
@@ -91,6 +88,18 @@ const deleteReport = async (req = request, res = response) => {
         const {id} = req.params
 
         const report = await Report.deletById(id)
+
+        res.status(200).json(report)
+    } catch (error) {
+        res.status(500).json({error})
+    }
+}
+
+const putReport = async (req = request, res = response) => {
+    try {
+        const {id} = req.params
+
+        const report = await Report.updateById(id, {resolved: true})
 
         res.status(200).json(report)
     } catch (error) {
@@ -116,6 +125,7 @@ module.exports = {
     report,
     reports,
     deleteReport,
+    putReport,
     post,
     delet,
     put
