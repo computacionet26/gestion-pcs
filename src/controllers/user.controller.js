@@ -120,23 +120,23 @@ const put = async (req = request, res = response) => {
 		const updateUsername = req.body.username
 		const updateEmail = req.body.email
 		const updatePassword = req.body.password
-		
-		console.log('controller', username, {updateUsername, updateEmail, updatePassword})
-		
+		const updateRole = req.body.roles
+				
 		const user = await User.updateByUsername(username, {username: updateUsername, email: updateEmail, password: updatePassword})
 
-		//const rolesNamesList = roles.split(',')
-		
-		//const rolesList = await Promise.all(
-		//	rolesNamesList.map(async roleName => {
-		//		const role = await Role.getByName(roleName)
-		//		
-		//		await UserRole.upload({
-		//			userId: user.id,
-		//			roleId: role.id
-		//		})
-		//	})
-		//)
+        console.log(user);
+        console.log({userId: user.id});
+        try {
+            await UserRole.delet({userId: user.id})
+        } catch (error) {
+            console.log(error);
+        }
+        
+		const role = await Role.getByName(updateRole)
+		await UserRole.upload({
+			userId: user.id,
+			roleId: role.id
+		})
 
         res.status(200).json(user)
     } catch (error) {

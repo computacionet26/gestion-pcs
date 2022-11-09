@@ -1,7 +1,7 @@
 const {PrismaClient} = require('@prisma/client')
 const prisma = new PrismaClient()
 
-const {z} = require('zod')
+const {z, optional} = require('zod')
 
 module.exports = {
     get: async where => await prisma.report.findMany({where}),
@@ -18,5 +18,13 @@ module.exports = {
 
     UploadSchema: z.object({
         desc: z.string().min(2).max(255),
-    })
+    }).strip(),
+
+    UpdateSchema: z.object({
+        desc: z.string().min(2).max(255).optional(),
+        asignado: z.string().min(1).max(255).optional(),
+        asignadoAt: z.string().optional(),
+        resolved: z.boolean().optional(),
+        resolvedAt: z.string().optional(),
+    }).strip()
 }

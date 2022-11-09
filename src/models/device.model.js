@@ -26,7 +26,7 @@ module.exports = {
         power: z.string().min(1).max(255).optional(),
         lab: z.string().min(1).max(255),
         labId: z.string().min(1).max(255)
-    }),
+    }).strip(),
     UpdateSchema: z.object({
         type: z.string().min(1).max(255).optional(),
         ram: z.string().min(1).max(255).optional(),
@@ -37,5 +37,5 @@ module.exports = {
         power: z.string().min(1).max(255).optional(),
         lab: z.string().min(1).max(255).optional(),
         labId: z.string().min(1).max(255).optional()
-    })
+    }).strip()
 }

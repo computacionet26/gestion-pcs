@@ -47,6 +47,9 @@ model Report {
   labId       String
   lab         String
   resolved    Boolean  @default(false)
+  resolvedAt  String?
+  asignado    String?
+  asignadoAt  String?
 }
 
 model Role {

@@ -11,7 +11,7 @@ module.exports = {
 
     upload: async data => await prisma.userRole.create({data}),
 
-    delet: async where => await prisma.userRole.delete({where}),
+    delet: async where => await prisma.userRole.deleteMany({where}),
     deletById: async id => await prisma.userRole.delete({where: {id}}),
 
     update: async (where, data) => await prisma.userRole.update({where, data}),
@@ -20,5 +20,5 @@ module.exports = {
     UploadSchema: z.object({
         userId: z.string().min(3).max(255),
         roleId: z.string().min(3).max(255),
-    })
+    }).strip()
 }

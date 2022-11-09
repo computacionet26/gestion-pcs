@@ -99,10 +99,11 @@ const putReport = async (req = request, res = response) => {
     try {
         const {id} = req.params
 
-        const report = await Report.updateById(id, {resolved: true})
+        const report = await Report.updateById(id, req.body)
 
         res.status(200).json(report)
     } catch (error) {
+        console.log(error);
         res.status(500).json({error})
     }
 }
