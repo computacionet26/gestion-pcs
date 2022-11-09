@@ -5,7 +5,8 @@ export default function ({setSession}){
 
     const id = useRef('')
     const desc = useRef('')
-    const [msg, setMsg] = useState('')
+    const [msg, setMsg] = useState(null)
+    const [error, setError] = useState(null)
 
     const sessionData = JSON.parse(localStorage.getItem('session'))
     const urlParams = window.location.href.split('/')
@@ -28,8 +29,11 @@ export default function ({setSession}){
                     Authorization: sessionData.token                }
             })
             console.log(hola);
+            setError(null)
+            setMsg(`Tu reporte se realizo con exito!`)
         } catch (error) {
-            setMsg(`El dispositivo con la ID "${id.current.value}" no existe.`)
+            setMsg(null)
+            setError(`El dispositivo con la ID "${id.current.value}" no existe.`)
         }
     }
 
@@ -49,7 +53,7 @@ export default function ({setSession}){
             <form action="http://localhost:3000/user/login" onSubmit={handleSubmit} method="post" className='flex flex-col gap-6 bg-white p-8 rounded-b shadow-xl'>
                <div className='flex gap-2 flex-col'>
                         <p className='text-xl text-gray-600 font-semibold'>ID del dispositivo</p>
-                        <input type="text" ref={id} required placeholder='ID' className='border border-b-slate-400 py-2 px-4 focus:border-slate-400 focus:outline-none text-2xl text-slate-600'/>
+                        <input type="text" ref={id} required placeholder='ID' disabled className='bg-gray-200 border border-b-slate-400 py-2 px-4 focus:border-slate-400 focus:outline-none text-2xl text-slate-600'/>
                       </div>
 
                 <div className='flex gap-2 flex-col'>
@@ -58,9 +62,11 @@ export default function ({setSession}){
                 </div>
 
                 <input type="submit" value="Reportar" className='font-semibold bg-slate-500 py-2 px-4 text-white text-2xl cursor-pointer'/>
-                {msg !== ''
-                    ? <p className='text-red-400 font-semibold text-xl text-center'>{msg}</p>
-                    : null
+                {error &&
+                     <p className='text-red-400 font-semibold text-xl text-center'>{error}</p>
+                }
+                {msg &&
+                     <p className='text-green-500 font-semibold text-xl text-center'>{msg}</p>
                 }
             </form>
         </div>

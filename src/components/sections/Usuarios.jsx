@@ -88,11 +88,13 @@ export default function(){
         }
     }
 
-    function updateUserModal(username_, email_, password_){
+    function updateUserModal(username_, email_, password_, roles_){
         updateUsername.current = {value: username_}
         username.current = {value: username_}
         email.current = {value: email_}
+        roles.current = {value: roles_}
         password.current = {value: ''}
+        console.log(roles.current.value);
         setUpdateModal(true)
     }
 
@@ -182,7 +184,7 @@ export default function(){
                             type: "select",
                             name: "roles",
                             ref: roles,
-                            children: ['TEACHER','TECNIC','ADMIN']
+                            children: [...new Set([(roles.current.value).toString(),'ADMIN', 'TEACHER','TECNIC'])]
                         }
                     ]}
                 />
@@ -197,7 +199,7 @@ export default function(){
                         <p className="text-slate-400 text-lg">({user.roles})</p>
                     </div>
                     <div className="flex gap-4">
-                        <button onClick={() => updateUserModal(user.username, user.email, user.password)} className="text-slate-600 text-lg">Editar</button>
+                        <button onClick={() => updateUserModal(user.username, user.email, user.password, user.roles)} className="text-slate-600 text-lg">Editar</button>
                         <button onClick={() => removeUser(user.username)} className="text-red-400 text-lg">Eliminar</button>
                     </div>
                 </div>

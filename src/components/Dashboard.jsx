@@ -41,9 +41,9 @@ function Dashboard({setSession}){
             <div className="p-4 pr-6 flex gap-4 items-start">
                 <div id="sidebar" className="bg-white sticky top-4 flex flex-col w-1/4 p-6 gap-1 rounded shadow-lg min-h">
                     <SelectionButton setSelection={setSelection} sectionName='Reportes' section={section}/>
-                    <SelectionButton setSelection={setSelection} sectionName='Dispositivos' section={section}/>
                     {sessionData.roles.includes('ADMIN') &&
                         <>
+                            <SelectionButton setSelection={setSelection} sectionName='Dispositivos' section={section}/>
                             <SelectionButton setSelection={setSelection} sectionName='Usuarios' section={section}/>
                             <SelectionButton setSelection={setSelection} sectionName='Laboratorios' section={section}/>
                             <SelectionButton setSelection={setSelection} sectionName='Roles' section={section}/>
@@ -51,9 +51,12 @@ function Dashboard({setSession}){
                     }
                 </div>
 
+                {section !== 'reportes' ?
                 <main className="w-full bg-white rounded shadow-lg p-6">
                     {changeSection()}
                 </main>
+                :  <main className="w-full">{changeSection()}</main>
+                }   
             </div>
         </>
     )
