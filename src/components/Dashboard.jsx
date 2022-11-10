@@ -39,7 +39,7 @@ function Dashboard({setSession}){
             </header>
 
             <div className="p-4 pr-6 flex gap-4 items-start">
-                <div id="sidebar" className="bg-white sticky top-4 flex flex-col w-1/4 p-6 gap-1 rounded shadow-lg min-h">
+                <div id="sidebar" className="hidden md:flex bg-white sticky top-4 flex-col w-1/4 p-6 gap-1 rounded shadow-lg min-h">
                     <SelectionButton setSelection={setSelection} sectionName='Reportes' section={section}/>
                     {sessionData.roles.includes('ADMIN') &&
                         <>

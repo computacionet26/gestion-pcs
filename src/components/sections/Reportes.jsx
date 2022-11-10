@@ -126,53 +126,56 @@ export default function(){
                 <button onClick={() => changeTab(false)} className={tab == false ? "text-slate-600 text-xl border-t-2 border-t-red-400 p-2 bg-white" : "text-slate-600 text-xl border-t-2 border-t-red-400 p-2 bg-gray-400"}>No resueltos</button>
                 <button onClick={() => changeTab(true)} className={tab == true ? "text-slate-600 text-xl border-t-2 border-t-green-400 p-2 bg-white" : "text-slate-600 text-xl border-t-2 border-t-green-400 p-2 bg-gray-400"}>Resueltos</button>
             </div>
-        <div className="flex flex-col gap-2 w-full bg-white rounded-b shadow-lg p-6">
+
+            <div className="flex flex-col gap-2 w-full bg-white rounded-b shadow-lg p-6">
 
             {reports.map(report => 
                 <div>
-                {(sessionData.roles.includes('ADMIN') || (sessionData.roles.includes('TECNIC') && sessionData.username == report.asignado)) &&
-                <div 
-                    className= {report.resolved == false 
-                        ? "bg-slate-300 p-4 rounded flex justify-between border-[2.5px] border-red-400"
-                        : "bg-slate-300 p-4 rounded flex justify-between border-[2.5px] border-green-400"
-                    }
-                >
-                    <div className="flex gap-2">
-                        <div className="flex py-2 px-6 rounded bg-white flex-col">
-                            <div>
-                                {report.asignado ? 
-                                    <>
-                                        <h1 className="text-xl text-slate-600 flex flex-row gap-2 underline">Asignado: <p className="font-semibold">{report.asignado}</p></h1>
-                                        <h1 className="text-xl text-slate-600 flex flex-row gap-2">Fecha asignado: <p className="font-semibold">{moment(report.asignadoAt).format('MM/DD/YYYY, h:mm a')}</p></h1>
-                                    </>
-                                    :
-                                    <h1 className="text-xl text-red-400 font-bold flex flex-row gap-2">SIN ASIGNAR</h1>    
+                    {(sessionData.roles.includes('ADMIN') || (sessionData.roles.includes('TECNIC') && sessionData.username == report.asignado)) &&
+                        <div 
+                            className= {report.resolved == false 
+                                ? "bg-slate-400 p-4 rounded flex justify-between border-[2.5px] border-red-300"
+                                : "bg-slate-400 p-4 rounded flex justify-between border-[2.5px] border-green-400"
+                            }
+                        >
+                        
+                        <div className="flex flex-col md:flex-row w-full gap-2 md:justify-between">
+                            <div className="flex gap-2 flex-col md:flex-row w-full">
+                                <div className="flex p-2 rounded bg-white flex-col gap-1">
+                                        {report.asignado ? 
+                                            <>
+                                                <h1 className="text-xl text-slate-600 flex flex-row gap-2 underline bg-slate-300 p-2 rounded-sm w-full">Asignado: <p className="font-semibold">{report.asignado}</p></h1>
+                                                <h1 className="text-xl text-slate-600 flex flex-row gap-2 bg-slate-300 p-2 rounded-sm">Fecha asignado: <p className="font-semibold">{moment(report.asignadoAt).format('MM/DD/YYYY, h:mm a')}</p></h1>
+                                            </>
+                                            :
+                                            <h1 className="text-xl text-red-400 font-bold flex flex-row gap-2 bg-slate-300 p-2 rounded-sm">SIN ASIGNAR</h1>    
+                                        }
+                                        <h1 className="text-xl text-slate-600 flex flex-row gap-2 bg-slate-300 p-2 rounded-sm">Usuario: <p className="font-semibold">{report.user}</p></h1>
+                                        <h1 className="text-xl text-slate-600 flex flex-row gap-2 bg-slate-300 p-2 rounded-sm">Laboratorio: <p className="font-semibold">{report.lab}</p></h1>
+                                        <h1 className="text-xl text-slate-600 flex flex-row gap-2 bg-slate-300 p-2 rounded-sm w-full">Dispositivo: <p className="font-semibold">{report.deviceType}</p></h1>
+                                        <h1 className="text-xl text-slate-600 flex flex-row gap-2 bg-slate-300 p-2 rounded-sm">ID: <p className="font-semibold">{report.deviceId}</p></h1>
+                                        <h1 className="text-xl text-slate-600 flex flex-row gap-2 bg-slate-300 p-2 rounded-sm">Fecha: <p className="font-semibold">{moment(report.createdAt).format('MM/DD/YYYY, h:mm a')}</p></h1>
+                                        {report.resolved && <h1 className="text-xl text-slate-600 flex flex-row gap-2 bg-slate-300 p-2 rounded-sm">Fecha resuelto: <p className="font-semibold">{moment(report.resolvedAt).format('MM/DD/YYYY, h:mm a')}</p></h1> }
+                                </div>
+                                <div className="flex gap-2 p-2 rounded bg-white flex-col w-full">
+                                    <h1 className="text-xl text-slate-600 flex flex-row gap-2 font-semibold bg-slate-300 p-2 rounded-sm">Descripcion:</h1>
+                                    <p className="text-slate-600 h-full text-xl bg-slate-300 p-2">{report.desc}</p>
+                                </div>
+                            </div>
+
+                            <div className="flex justify-center sm:justify-between flex-wrap md:flex-col gap-2">
+                                {report.resolved == false &&
+                                <>
+                                    <button onClick={() => resolveReport(report.id)} className="text-white text-xl bg-green-400 rounded px-6 py-2 font-semibold">Resolver</button>
+                                    {sessionData.roles.includes('ADMIN') && <button onClick={() => asignar(report.id)} className="text-white text-xl bg-slate-500 rounded px-6 py-2 font-semibold">Asignar</button>}
+                                </> 
                                 }
-                                <h1 className="text-xl text-slate-600 flex flex-row gap-2">Usuario: <p className="font-semibold">{report.user}</p></h1>
-                                <h1 className="text-xl text-slate-600 flex flex-row gap-2">Laboratorio: <p className="font-semibold">{report.lab}</p></h1>
-                            </div>
-                            <div>
-                                <h1 className="text-xl text-slate-600 flex flex-row gap-2">Dispositivo: <p className="font-semibold">{report.deviceType}</p></h1>
-                                <h1 className="text-xl text-slate-600 flex flex-row gap-2">ID: <p className="font-semibold">{report.deviceId}</p></h1>
-                                <h1 className="text-xl text-slate-600 flex flex-row gap-2">Fecha: <p className="font-semibold">{moment(report.createdAt).format('MM/DD/YYYY, h:mm a')}</p></h1>
-                                {report.resolved && <h1 className="text-xl text-slate-600 flex flex-row gap-2">Fecha resuelto: <p className="font-semibold">{moment(report.resolvedAt).format('MM/DD/YYYY, h:mm a')}</p></h1> }
+                                    {sessionData.roles.includes('ADMIN') && <button onClick={() => removeReport(report.id)} className="text-white text-xl bg-red-400 rounded px-6 py-2 font-semibold">Eliminar</button>}
+                                </div>
                             </div>
                         </div>
-                        <div className="flex gap-2 p-2 rounded bg-white flex-col">
-                            <h1 className="text-xl text-slate-600 flex flex-row gap-2 font-semibold">Descripcion:</h1>
-                            <p className="text-slate-600 text-xl">{report.desc}</p>
-                        </div>
-                    </div>
-                    <div className="flex justify-between flex-col gap-2">
-                        {report.resolved == false ? <>
-                            <button onClick={() => resolveReport(report.id)} className="text-white text-xl bg-green-400 rounded px-6 py-2 font-semibold">Resolver</button>
-                            {sessionData.roles.includes('ADMIN') && <button onClick={() => asignar(report.id)} className="text-white text-xl bg-slate-500 rounded px-6 py-2 font-semibold">Asignar</button>}
-                        </> : <div></div>}
-                        {sessionData.roles.includes('ADMIN') && <button onClick={() => removeReport(report.id)} className="text-white text-xl bg-red-400 rounded px-6 py-2 font-semibold">Eliminar</button>}
-                    </div>
-                </div>
-                }
-                </div>
+                    }
+            </div>
             )}
         </div>
         </div>

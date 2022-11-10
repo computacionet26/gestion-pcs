@@ -44,20 +44,20 @@ export default function ({setSession}){
     }, [])
 
     return (
-        <div className=''>
-            <header className="w-full bg-white flex justify-between items-center px-8 py-4 shadow-lg border border-b-slate-400 rounded-t">
-                <h1 className="text-2xl font-semibold text-slate-600">{sessionData.username}</h1>
+        <div className='w-5/6 md:w-auto'>
+            <header className="w-full bg-white flex flex-col md:flex-row gap-4 justify-between items-center px-8 py-4 shadow-lg border border-b-slate-400 rounded-t">
+                <h1 className="text-3xl md:text-2xl font-semibold text-slate-600">{sessionData.username}</h1>
                 <button onClick={cerrarSesion} className="text-xl font-semibold bg-red-400 rounded px-4 py-2 text-white">Cerrar sesion</button>
             </header>
 
             <form action="http://localhost:3000/user/login" onSubmit={handleSubmit} method="post" className='flex flex-col gap-6 bg-white p-8 rounded-b shadow-xl'>
                <div className='flex gap-2 flex-col'>
-                        <p className='text-xl text-gray-600 font-semibold'>ID del dispositivo</p>
+                        <p className='text-2xl md:text-xl text-gray-600 font-semibold'>ID del dispositivo</p>
                         <input type="text" ref={id} required placeholder='ID' disabled className='bg-gray-200 border border-b-slate-400 py-2 px-4 focus:border-slate-400 focus:outline-none text-2xl text-slate-600'/>
                       </div>
 
                 <div className='flex gap-2 flex-col'>
-                    <p className='text-xl text-gray-600 font-semibold'>Descripcion del reporte</p>
+                    <p className='text-2xl md:text-xl text-gray-600 font-semibold'>Descripcion del reporte</p>
                     <textarea type="text" ref={desc} rows='5' cols='50' name="desc" required placeholder='Descripcion' className='border border-b-slate-400 py-2 px-4 border-slate-400 focus:outline-none text-2xl text-slate-600'></textarea>
                 </div>
 
