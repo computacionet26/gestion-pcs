@@ -1,7 +1,10 @@
 const Device = new require('../models/device.model')
 const Report = new require('../models/report.model')
 const User = new require('../models/user.model')
+const UserRole = new require('../models/userrole.model')
+const Role = new require('../models/role.model')
 const {getToken, expiredToken} = require('../utils/jwt')
+const sendEmail = require('../utils/sendEmai')
 
 const get = async (req = request, res = response) => {
     try {
@@ -43,6 +46,32 @@ const report = async (req = request, res = response) => {
             user: user.name,
             desc
         })
+
+        try {
+            const adminRoleId = (await Role.getByName('ADMIN')).id
+            const adminUsersRoles = await UserRole.getByRoleId(adminRoleId)
+
+            await Promise.all(
+                adminUsersRoles.map(async userRole => {
+                    const {email} = await User.getById(userRole.userId)
+
+                    const html = Object.entries(report).map(([key, value]) => {
+                        if(value) return `<h3>${key}: ${value} </h3>`
+                    }).join('')
+
+                    await sendEmail({
+                        email,
+                        service: 'gmail',
+                        from: 'ET 26 Gestion PCS',
+                        subject: 'Nuevo reporte! - ET 26 Gestion PCS',
+                        html,
+                    })
+                })
+            )
+        } catch (error) {
+            console.log(error);
+        }
+
         res.status(200).json(report)
     } catch (error) {
         console.log({ref: 'device_controller', error});
