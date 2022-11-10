@@ -46,7 +46,7 @@ function Dashboard({setSession}){
                             <SelectionButton setSelection={setSelection} sectionName='Dispositivos' section={section}/>
                             <SelectionButton setSelection={setSelection} sectionName='Usuarios' section={section}/>
                             <SelectionButton setSelection={setSelection} sectionName='Laboratorios' section={section}/>
-                            <SelectionButton setSelection={setSelection} sectionName='Roles' section={section}/>
+                            {/* <SelectionButton setSelection={setSelection} sectionName='Roles' section={section}/> */}
                         </>
                     }
                 </div>

@@ -20,7 +20,7 @@ export default function(){
                 Authorization: sessionData.token
             }
         })
-        const data = reportsData.data.filter(report => report.resolved === filtrado)
+        const data = reportsData.data.filter(report => report.resolved === filtrado).sort((a, b) => moment(a.createdAt).diff(b.createdAt)).reverse()
         setReports(data);
     }
     
