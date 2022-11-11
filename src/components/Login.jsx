@@ -23,7 +23,7 @@ function Login({setSession}){
     }
 
     return (
-        <div>
+        <div className='w-11/12 sm:w-auto'>
             <form action="http://localhost:3000/user/login" onSubmit={handleSubmit} method="post" className='flex flex-col gap-6 bg-white p-8 rounded shadow-xl'>
                 <div className='flex gap-2 flex-col'>
                     <p className='text-xl text-gray-600 font-semibold'>Nombre o email</p>
