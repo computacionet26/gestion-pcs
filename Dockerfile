@@ -1,6 +1,6 @@
-FROM node:16
+FROM node:16-alpine3.15
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
 COPY .env ./
@@ -10,5 +10,7 @@ RUN npm install
 RUN npm run prisma
 
 COPY . .
+
+EXPOSE 3000
 
 CMD ["npm", "start"]
