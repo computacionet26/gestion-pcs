@@ -5,7 +5,7 @@ https://dbdiagram.io/d/632c58307b3d2034ff8d3d47
 
 La api esta construida con Express, un framework de Nodejs para backend, usando Prisma.js con ORM, Zod para validar las peticiones http, bcryptjs para encriptar las contrañas.
 
-#Instrucciones
+## Instrucciones
 
 Primero hay que establecer las variables de entorno en el archivo ".env".
 
