@@ -19,7 +19,7 @@ Luego migramos y construimos la base de datos usando el comando (los datos para 
 npm run prisma
 ```
 
-Y para inciar la aplicaicon hay que usar el comando y se abrira en el puerto especificado en las variables de entorno, y si esta no esta establedica, de abrira en el puerto "3000":
+Y para inciar la aplicaicon hay que usar el comando (la api se abrira en el puerto especificado en las variables de entorno, y si esta no esta establedica, de abrira en el puerto "3000"):
 ```
 npm start
 ```
