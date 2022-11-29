@@ -1,8 +1,8 @@
-# gestion-pcs
+# Gestion PCS - Cliente
 
 El cliente esta construido usando Vite como empaquetador, React como framework para hacer una aplicacion SPA y Tailwind como framework de estilos.
 
-# Instrucciones
+## Instrucciones
 
 Primero hay que instalar los modulos de node, usar el comando:
 ```
