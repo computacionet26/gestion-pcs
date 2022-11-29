@@ -9,7 +9,7 @@ Primero hay que instalar los modulos de node:
 npm install
 ```
 
-Una vez instalados los modulos de node, podemos abrir la aplicacion en un puerto:
+Esta opcion es opcional, se usario cuando se quiere hacer un cambio en el proyecto y verlo en tiempo real, una vez instalados los modulos de node, podemos abrir la aplicacion en un puerto:
 ```
 npm run dev
 ```
