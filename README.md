@@ -4,7 +4,7 @@ El cliente esta construido usando Vite como empaquetador, React como framework p
 
 # Instrucciones
 
-Primero hay que instalar los modulos de node:
+Primero hay que instalar los modulos de node, usar el comando:
 ```
 npm install
 ```
