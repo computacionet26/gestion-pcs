@@ -19,3 +19,9 @@ Y para construir la aplicacion a archivos estaticos para desplejarlos en un serv
 npm run build
 ```
 los archivos estaticos se crearan en una carpeta llamada "build" o "dist" dentro de la carpeta.
+
+Para correr el servidor desde la carpeta root ejecutar 
+```
+http-server ./dist
+```
+
