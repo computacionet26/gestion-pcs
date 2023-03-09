@@ -15,7 +15,7 @@ export default function(){
     const fetchData = async (filtrado = false) => {
         const reportsData = await axios({
             method: "GET",
-            url: "http://localhost:3000/device/reports",
+            url: "http://10.120.3.179:3000/device/reports",
             headers: {
                 Authorization: sessionData.token
             }
@@ -33,7 +33,7 @@ export default function(){
         try {
             await axios({
                 method: "PUT",
-                url: `http://localhost:3000/device/report/${id}`,
+                url: `http://10.120.3.179:3000/device/report/${id}`,
                 data: {
                     resolved: true,
                     resolvedAt: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
@@ -49,7 +49,7 @@ export default function(){
     async function asignar(reportId) {
         const updatedUsers = await axios({
             method: "GET",
-            url: "http://localhost:3000/user",
+            url: "http://10.120.3.179:3000/user",
             headers: {
                 Authorization: sessionData.token
             }
@@ -66,7 +66,7 @@ export default function(){
         try {
             const res = await axios({
                 method: "PUT",
-                url: `http://localhost:3000/device/report/${reportIdAsignar}`,
+                url: `http://10.120.3.179:3000/device/report/${reportIdAsignar}`,
                 data: {
                     ...formProps,
                     asignadoAt: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
@@ -88,7 +88,7 @@ export default function(){
         try {
             await axios({
                 method: "DELETE",
-                url: `http://localhost:3000/device/report/${id}`,
+                url: `http://10.120.3.179:3000/device/report/${id}`,
                 headers: {
                     Authorization: sessionData.token
                 }
@@ -106,7 +106,7 @@ export default function(){
 
             {asignarModal && 
                 <FormModal
-                url="http://localhost:3000/device/report" 
+                url="http://10.120.3.179:3000/device/report" 
                 methid="PUT"
                 submit="Asignar tecnico"
                 submitCallback={asignarSubmit}

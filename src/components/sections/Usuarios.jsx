@@ -18,7 +18,7 @@ export default function(){
     const fetchData = async () => {
         const updatedUsers = await axios({
             method: "GET",
-            url: "http://localhost:3000/user",
+            url: "http://10.120.3.179:3000/user",
             headers: {
                 Authorization: sessionData.token
             }
@@ -31,7 +31,7 @@ export default function(){
         try {
             await axios({
                 method: "POST",
-                url: 'http://localhost:3000/user/register',
+                url: 'http://10.120.3.179:3000/user/register',
                 data: {
                     username: username.current.value,
                     email: email.current.value,
@@ -53,7 +53,7 @@ export default function(){
         try {
             await axios({
                 method: "DELETE",
-                url: `http://localhost:3000/user/${username}`,
+                url: `http://10.120.3.179:3000/user/${username}`,
                 headers: {
                     Authorization: sessionData.token
                 }
@@ -70,7 +70,7 @@ export default function(){
         try {
             await axios({
                 method: "PUT",
-                url: `http://localhost:3000/user/${updateUsername.current.value}`,
+                url: `http://10.120.3.179:3000/user/${updateUsername.current.value}`,
                 data: {
                     username: username.current.value,
                     email: email.current.value,
@@ -107,7 +107,7 @@ export default function(){
 
             {addModal ?
                <FormModal
-                    url="http://localhost:3000/user/register" 
+                    url="http://10.120.3.179:3000/user/register" 
                     methid="POST"
                     submit="Registrar usuario"
                     submitCallback={addUser}
@@ -148,7 +148,7 @@ export default function(){
 
             {updateModal ?
                <FormModal
-                    url="http://localhost:3000/user" 
+                    url="http://10.120.3.179:3000/user" 
                     methid="PUT"
                     submit="Actualizar usuario"
                     submitCallback={updateUser}

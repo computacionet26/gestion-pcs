@@ -15,7 +15,7 @@ export default function(){
     const fetchData = async () => {
         const updatedLabs = await axios({
             method: "GET",
-            url: "http://localhost:3000/lab",
+            url: "http://10.120.3.179:3000/lab",
             headers: {
                 Authorization: sessionData.token
             }
@@ -28,7 +28,7 @@ export default function(){
         try {
             await axios({
                 method: "POST",
-                url: 'http://localhost:3000/lab',
+                url: 'http://10.120.3.179:3000/lab',
                 data: {
                     name: name.current.value
                 },
@@ -47,7 +47,7 @@ export default function(){
         try {
             await axios({
                 method: "DELETE",
-                url: `http://localhost:3000/lab/${name}`,
+                url: `http://10.120.3.179:3000/lab/${name}`,
                 headers: {
                     Authorization: sessionData.token
                 }
@@ -69,7 +69,7 @@ export default function(){
         try {
             await axios({
                 method: "PUT",
-                url: `http://localhost:3000/lab/${updateName.current.value}`,
+                url: `http://10.120.3.179:3000/lab/${updateName.current.value}`,
                 data: {
                     name: name.current.value
                 },
@@ -93,7 +93,7 @@ export default function(){
 
             {addModal ?
                 <FormModal 
-                    url="http://localhost:3000/lab" 
+                    url="http://10.120.3.179:3000/lab" 
                     methid="POST"
                     submit="Añadir laboratorio"
                     submitCallback={addLab}
@@ -113,7 +113,7 @@ export default function(){
 
             {updateModal ?
                 <FormModal 
-                    url="http://localhost:3000/lab" 
+                    url="http://10.120.3.179:3000/lab" 
                     methid="POST"
                     submit="Actualizar laboratorio"
                     submitCallback={updateLab}

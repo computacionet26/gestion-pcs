@@ -21,7 +21,7 @@ export default function ({setSession}){
         try {
             const hola = await axios({
                 method: "POST",
-                url:  `http://localhost:3000/device/report/${id.current.value}`,
+                url:  `http://10.120.3.179:3000/device/report/${id.current.value}`,
                 data: {
                     "desc": desc.current.value
                 },
@@ -50,7 +50,7 @@ export default function ({setSession}){
                 <button onClick={cerrarSesion} className="text-xl font-semibold bg-red-400 rounded px-4 py-2 text-white">Cerrar sesion</button>
             </header>
 
-            <form action="http://localhost:3000/user/login" onSubmit={handleSubmit} method="post" className='flex flex-col gap-6 bg-white p-8 rounded-b shadow-xl'>
+            <form action="http://10.120.3.179:3000/user/login" onSubmit={handleSubmit} method="post" className='flex flex-col gap-6 bg-white p-8 rounded-b shadow-xl'>
                <div className='flex gap-2 flex-col'>
                         <p className='text-2xl md:text-xl text-gray-600 font-semibold'>ID del dispositivo</p>
                         <input type="text" ref={id} required placeholder='ID' disabled className='bg-gray-200 border border-b-slate-400 py-2 px-4 focus:border-slate-400 focus:outline-none text-2xl text-slate-600'/>

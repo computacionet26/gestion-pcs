@@ -28,14 +28,14 @@ export default function(){
     const fetchData = async () => {
         const devicesData = await axios({
             method: "GET",
-            url: "http://localhost:3000/device",
+            url: "http://10.120.3.179:3000/device",
             headers: {
                 Authorization: sessionData.token
             }
         })
         const labsData = await axios({
             method: "GET",
-            url: "http://localhost:3000/lab",
+            url: "http://10.120.3.179:3000/lab",
             headers: {
                 Authorization: sessionData.token
             }
@@ -63,7 +63,7 @@ export default function(){
         try {
             await axios({
                 method: "POST",
-                url: 'http://localhost:3000/device',
+                url: 'http://10.120.3.179:3000/device',
                 data: formProps,
                 headers: {
                     Authorization: sessionData.token
@@ -80,7 +80,7 @@ export default function(){
         try {
             await axios({
                 method: "DELETE",
-                url: `http://localhost:3000/device/${id}`,
+                url: `http://10.120.3.179:3000/device/${id}`,
                 headers: {
                     Authorization: sessionData.token
                 }
@@ -126,7 +126,7 @@ export default function(){
             {addModal ?
                <FormModal
                     className='scale-5'
-                    url="http://localhost:3000/device" 
+                    url="http://10.120.3.179:3000/device" 
                     methid="POST"
                     submit="Agregar dispositivo"
                     submitCallback={addDevice}
@@ -191,7 +191,7 @@ export default function(){
 
             {/* {updateModal ?
                <FormModal
-                    url="http://localhost:3000/user" 
+                    url="http://10.120.3.179:3000/user" 
                     methid="PUT"
                     submit="Actualizar dispositivo"
                     submitCallback={updateUser}
