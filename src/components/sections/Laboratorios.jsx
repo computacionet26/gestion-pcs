@@ -15,7 +15,7 @@ export default function(){
     const fetchData = async () => {
         const updatedLabs = await axios({
             method: "GET",
-            url: "http://10.120.3.179:3000/lab",
+            url: `${import.meta.env.VITE_API_URL}/lab`,
             headers: {
                 Authorization: sessionData.token
             }
@@ -28,7 +28,7 @@ export default function(){
         try {
             await axios({
                 method: "POST",
-                url: 'http://10.120.3.179:3000/lab',
+                url: `${import.meta.env.VITE_API_URL}/lab`,
                 data: {
                     name: name.current.value
                 },
@@ -47,7 +47,7 @@ export default function(){
         try {
             await axios({
                 method: "DELETE",
-                url: `http://10.120.3.179:3000/lab/${name}`,
+                url: `${import.meta.env.VITE_API_URL}/lab/${name}`,
                 headers: {
                     Authorization: sessionData.token
                 }
@@ -69,7 +69,7 @@ export default function(){
         try {
             await axios({
                 method: "PUT",
-                url: `http://10.120.3.179:3000/lab/${updateName.current.value}`,
+                url: `${import.meta.env.VITE_API_URL}/lab/${updateName.current.value}`,
                 data: {
                     name: name.current.value
                 },
@@ -92,8 +92,8 @@ export default function(){
         <div className="flex flex-col gap-2">
 
             {addModal ?
-                <FormModal 
-                    url="http://10.120.3.179:3000/lab" 
+                <FormModal
+                    url={`${import.meta.env.VITE_API_URL}/lab`}
                     methid="POST"
                     submit="Añadir laboratorio"
                     submitCallback={addLab}
@@ -112,8 +112,8 @@ export default function(){
             : null}
 
             {updateModal ?
-                <FormModal 
-                    url="http://10.120.3.179:3000/lab" 
+                <FormModal
+                    url={`${import.meta.env.VITE_API_URL}/lab`}
                     methid="POST"
                     submit="Actualizar laboratorio"
                     submitCallback={updateLab}
@@ -133,8 +133,7 @@ export default function(){
             : null}
 
             <button onClick={() => setAddModal(true)} className="p-4 rounded font-bold outline outline-1 outline-slate-300 text-slate-600">+ Añadir laboratorio</button>
-            
-            {labs.map(lab => 
+            {labs.map(lab =>
                 <div className="bg-slate-300 p-4 rounded flex justify-between">
                     <h1 className="text-xl text-slate-600 font-semi-bold">{lab.name}</h1>
                     {lab.name !== 'ADMIN' ?

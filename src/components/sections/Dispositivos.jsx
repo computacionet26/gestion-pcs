@@ -28,14 +28,14 @@ export default function(){
     const fetchData = async () => {
         const devicesData = await axios({
             method: "GET",
-            url: "http://10.120.3.179:3000/device",
+            url: `${import.meta.env.VITE_API_URL}/device`,
             headers: {
                 Authorization: sessionData.token
             }
         })
         const labsData = await axios({
             method: "GET",
-            url: "http://10.120.3.179:3000/lab",
+            url: `${import.meta.env.VITE_API_URL}/lab`,
             headers: {
                 Authorization: sessionData.token
             }
@@ -63,7 +63,7 @@ export default function(){
         try {
             await axios({
                 method: "POST",
-                url: 'http://10.120.3.179:3000/device',
+                url: `${import.meta.env.VITE_API_URL}/device`,
                 data: formProps,
                 headers: {
                     Authorization: sessionData.token
@@ -80,7 +80,7 @@ export default function(){
         try {
             await axios({
                 method: "DELETE",
-                url: `http://10.120.3.179:3000/device/${id}`,
+                url: `${import.meta.env.VITE_API_URL}/device/${id}`,
                 headers: {
                     Authorization: sessionData.token
                 }
@@ -94,7 +94,7 @@ export default function(){
 
     async function openQRModal(device){
         QRDeviceProps.current = device
-        QRDeviceProps.current.img = await QRCode.toDataURL(`http://127.0.0.1:5173/report/${device.id}`)
+        QRDeviceProps.current.img = await QRCode.toDataURL(`${import.meta.env.VITE_API_URL}/report/${device.id}`)
         setQRModal(true)
     }
 
@@ -124,9 +124,9 @@ export default function(){
             }
 
             {addModal ?
-               <FormModal
+                <FormModal
                     className='scale-5'
-                    url="http://10.120.3.179:3000/device" 
+                    url={`${import.meta.env.VITE_API_URL}/device`}
                     methid="POST"
                     submit="Agregar dispositivo"
                     submitCallback={addDevice}
@@ -191,7 +191,7 @@ export default function(){
 
             {/* {updateModal ?
                <FormModal
-                    url="http://10.120.3.179:3000/user" 
+                    url={`${import.meta.env.VITE_API_URL}/user`}
                     methid="PUT"
                     submit="Actualizar dispositivo"
                     submitCallback={updateUser}

@@ -15,7 +15,7 @@ export default function(){
     const fetchData = async () => {
         const updatedUsers = await axios({
             method: "GET",
-            url: "http://10.120.3.179:3000/role",
+            url: `${import.meta.env.VITE_API_URL}/role`,
             headers: {
                 Authorization: sessionData.token
             }
@@ -28,7 +28,7 @@ export default function(){
         try {
             await axios({
                 method: "POST",
-                url: 'http://10.120.3.179:3000/role',
+                url: `${import.meta.env.VITE_API_URL}/role`,
                 data: {
                     name: name.current.value
                 },
@@ -48,7 +48,7 @@ export default function(){
         try {
             await axios({
                 method: "PUT",
-                url: `http://10.120.3.179:3000/role/${updateName.current.value}`,
+                url: `${import.meta.env.VITE_API_URL}/role/${updateName.current.value}`,
                 data: {
                     name: name.current.value
                 },
@@ -73,7 +73,7 @@ export default function(){
         try {
             await axios({
                 method: "DELETE",
-                url: `http://10.120.3.179:3000/role/${name}`,
+                url: `${import.meta.env.VITE_API_URL}/role/${name}`,
                 headers: {
                     Authorization: sessionData.token
                 }
@@ -94,7 +94,7 @@ export default function(){
 
             {addModal ?
                 <FormModal 
-                    url="http://10.120.3.179:3000/rol" 
+                    url={`${import.meta.env.VITE_API_URL}/rol`}
                     methid="POST"
                     submit="Añadir rol"
                     submitCallback={addRole}
@@ -114,7 +114,7 @@ export default function(){
 
             {updateModal ?
                 <FormModal 
-                    url="http://10.120.3.179:3000/role" 
+                    url={`${import.meta.env.VITE_API_URL}/role`}
                     methid="POST"
                     submit="Actualizar rol"
                     submitCallback={updateRole}

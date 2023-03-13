@@ -11,13 +11,13 @@ function App() {
 
   return (
     <>
-      {session 
-           ? (JSON.parse(session).roles.includes('TECNIC') || JSON.parse(session).roles.includes('ADMIN'))
+      {session
+          ? (JSON.parse(session).roles.includes('TECNIC') || JSON.parse(session).roles.includes('ADMIN'))
             ? !urlParams.includes('report')
               ? <Layout><Dashboard setSession={setSession}/></Layout>
               : <CenterLayout><Report setSession={setSession}/></CenterLayout>
             : <CenterLayout><Report setSession={setSession}/></CenterLayout>
-           : <CenterLayout><Login setSession={setSession}/></CenterLayout>
+          : <CenterLayout><Login setSession={setSession}/></CenterLayout>
       }
     </>
   )

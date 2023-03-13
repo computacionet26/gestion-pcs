@@ -15,7 +15,7 @@ export default function(){
     const fetchData = async (filtrado = false) => {
         const reportsData = await axios({
             method: "GET",
-            url: "http://10.120.3.179:3000/device/reports",
+            url: `${import.meta.env.VITE_API_URL}/device/reports`,
             headers: {
                 Authorization: sessionData.token
             }
@@ -23,7 +23,7 @@ export default function(){
         const data = reportsData.data.filter(report => report.resolved === filtrado).sort((a, b) => moment(a.createdAt).diff(b.createdAt)).reverse()
         setReports(data);
     }
-    
+
     function changeTab(newTab){
         setTab(newTab)
         fetchData(newTab)
@@ -33,7 +33,7 @@ export default function(){
         try {
             await axios({
                 method: "PUT",
-                url: `http://10.120.3.179:3000/device/report/${id}`,
+                url: `${import.meta.env.VITE_API_URL}/device/report/${id}`,
                 data: {
                     resolved: true,
                     resolvedAt: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
@@ -49,7 +49,7 @@ export default function(){
     async function asignar(reportId) {
         const updatedUsers = await axios({
             method: "GET",
-            url: "http://10.120.3.179:3000/user",
+            url: `${import.meta.env.VITE_API_URL}/user`,
             headers: {
                 Authorization: sessionData.token
             }
@@ -66,7 +66,7 @@ export default function(){
         try {
             const res = await axios({
                 method: "PUT",
-                url: `http://10.120.3.179:3000/device/report/${reportIdAsignar}`,
+                url: `${import.meta.env.VITE_API_URL}/device/report/${reportIdAsignar}`,
                 data: {
                     ...formProps,
                     asignadoAt: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
@@ -88,7 +88,7 @@ export default function(){
         try {
             await axios({
                 method: "DELETE",
-                url: `http://10.120.3.179:3000/device/report/${id}`,
+                url: `${import.meta.env.VITE_API_URL}/device/report/${id}`,
                 headers: {
                     Authorization: sessionData.token
                 }
@@ -104,9 +104,9 @@ export default function(){
     return(
         <div className="w-full">
 
-            {asignarModal && 
+            {asignarModal &&
                 <FormModal
-                url="http://10.120.3.179:3000/device/report" 
+                url={`${import.meta.env.VITE_API_URL}/device/report`}
                 methid="PUT"
                 submit="Asignar tecnico"
                 submitCallback={asignarSubmit}
