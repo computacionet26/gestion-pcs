@@ -2,6 +2,7 @@ const User = require('../models/user.model')
 
 module.exports = async (req = request, res = response, next) => {
     try {
+        console.log('asd')
         if(req.body.username.includes('@')) {
             req.body.email = req.body.username
             delete req.body.username
