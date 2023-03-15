@@ -10,7 +10,7 @@ const login = require('../middlewares/login')
 const checkAdmin = require('../middlewares/checkAdmin')
 const usernameExist = require('../middlewares/usernameExist')
 
-// router.post('/register', [parseSchema(User.RegisterSchema), encryptPassword, register], controller.register)
+//router.post('/register', [parseSchema(User.RegisterSchema), encryptPassword, register], controller.register)
 router.post('/register', [checkAdmin, parseSchema(User.RegisterSchema), encryptPassword, register], controller.register)
 router.post('/login', [parseSchema(User.LoginSchema), login], controller.login)
 
