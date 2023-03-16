@@ -23,3 +23,10 @@ Y para inciar la aplicaicon hay que usar el comando (la api se abrira en el puer
 ```
 npm start
 ```
+
+Datos complementarios
+Base de datos
+```
+usuario root
+clave Nasanasa0401
+```
