@@ -30,12 +30,10 @@ const register = async (req = request, res = response) => {
 
 const login = async (req = request, res = response) => {
     try {
-        console.log('controller')
         const user = await User.login(req.body)
-
-        console.log({id: user.id, name: user.username});
+        //console.log({id: user.id, name: user.username});
         const token = await genToken({id: user.id, name: user.username}, '360d')
-
+        console.log(token);
         const UserRoles = await UserRole.getByUserId(user.id)
         
         const roles = await Promise.all(
