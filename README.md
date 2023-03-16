@@ -30,3 +30,11 @@ Para correr el servidor desde la carpeta root ejecutar
 http-server ./dist
 ```
 
+Datos complementarios
+```
+Crear .env.local en client
+VITE_API_URL="http://10.120.3.179:3000"
+```
+
+ 
+
