@@ -20,6 +20,11 @@ npm run build
 ```
 los archivos estaticos se crearan en una carpeta llamada "build" o "dist" dentro de la carpeta.
 
+Información para instalar http-server
+```
+https://www.npmjs.com/package/http-server
+```
+
 Para correr el servidor desde la carpeta root ejecutar 
 ```
 http-server ./dist
